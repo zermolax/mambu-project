@@ -1,14 +1,12 @@
-import Link from 'next/link'
 import './globals.css'
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Inter, Farro, Faustina } from 'next/font/google'
+import Link from 'next/link'
 
 const inter = Inter({ subsets: ['latin'] })
+const farro = Farro({ subsets: ['latin'], weight: ['400', '700'] })
+const faustina = Faustina({ subsets: ['latin'], weight: ['400'] })
 
-export const metadata: Metadata = {
-  title: 'Mambu - Povești, Roma și Cărți Audio',
-  description: 'Descoperiți lumea poveștilor, a Romei și a cărților audio cu Mambu.',
-}
 
 export default function RootLayout({
   children,
@@ -18,21 +16,23 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <header className="bg-gray-800 text-white p-4">
-        <nav className="container mx-auto">
-  <ul className="flex space-x-4">
-    <li><Link href="/" className="hover:text-gray-300">Acasă</Link></li>
-    <li><Link href="/kids" className="hover:text-gray-300">Copii</Link></li>
-    <li><Link href="/rome" className="hover:text-gray-300">Roma</Link></li>
-    <li><Link href="/audiobooks" className="hover:text-gray-300">Cărți Audio</Link></li>
-  </ul>
-</nav>
+        <header className="bg-blue-500 text-white p-4">
+          <div className="container mx-auto flex justify-between items-center">
+            <Link href="/" className="text-2xl font-bold">Mambu</Link>
+            <nav>
+              <ul className="flex space-x-4">
+                <li><Link href="/kids" className="hover:underline">Povești pentru Copii</Link></li>
+                <li><Link href="/rome" className="hover:underline">Descoperă Roma</Link></li>
+                {/* Cărți Audio ascuns temporar */}
+                {/* <li><Link href="/audiobooks" className="hover:underline">Cărți Audio</Link></li> */}
+              </ul>
+            </nav>
+            <Link href="/cart" className="hover:underline">Coș (0)</Link>
+          </div>
         </header>
         <main>{children}</main>
-        <footer className="bg-gray-800 text-white p-4 mt-8">
-          <div className="container mx-auto">
-            <p>&copy; 2024 Mambu. Toate drepturile rezervate.</p>
-          </div>
+        <footer className="bg-gray-200 text-center p-4 mt-8">
+          <p>&copy; 2024 Mambu. Toate drepturile rezervate.</p>
         </footer>
       </body>
     </html>

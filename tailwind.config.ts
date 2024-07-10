@@ -13,6 +13,10 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      fontFamily: {
+        'farro': ['Farro', 'sans-serif'],
+        'faustina': ['Faustina', 'cursive'],
+      },
     },
   },
   plugins: [],
