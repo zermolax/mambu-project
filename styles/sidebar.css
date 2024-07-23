@@ -1,0 +1,43 @@
+.sidebar-section {
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .sidebar-book,
+  .sidebar-categories,
+  .sidebar-ads,
+  .sidebar-useful {
+    background-color: #dee5e7;
+  }
+  
+  .sidebar-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: #8B0000;
+  }
+  
+  .sidebar-link {
+    color: #8B0000;
+    text-decoration: none;
+  }
+  
+  .sidebar-link:hover {
+    text-decoration: underline;
+  }
+  
+  .buy-button {
+    display: block;
+    text-align: center;
+    background-color: #8B0000;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  .buy-button:hover {
+    background-color: #6D071A;
+  }

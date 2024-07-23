@@ -15,7 +15,10 @@ const config: Config = {
       },
       fontFamily: {
         'farro': ['Farro', 'sans-serif'],
-        'faustina': ['Faustina', 'cursive'],
+        'inter': ['Inter', 'serif'],
+        'besley': ['Besley', 'serif'],
+        'faustina': ['Faustina', 'serif'],
+
       },
     },
   },

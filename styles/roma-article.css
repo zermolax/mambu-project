@@ -1,0 +1,153 @@
+/* titlurile */
+
+.article-h1 {
+    font-size: 4rem;
+    color: #8B0000;
+    margin-bottom: 1rem;
+  }
+
+  .article-h2 {
+    font-size: 3rem;
+    color: #8B0000;
+    margin-bottom: 1rem;
+  }
+
+  .article-h3 {
+    font-size: 2.5rem;
+    color: #8B0000;
+    margin-bottom: 1rem;
+  }
+
+  .article-h4 {
+    font-size: 2rem;
+    color: #8B0000;
+    margin-bottom: 1rem;
+  }
+
+  .article-h5 {
+    font-size: 1.5rem;
+    color: #8B0000;
+    margin-bottom: 1rem;
+  }
+  
+  .article-description {
+    font-size: 1.25rem;
+    color: #4A4A4A;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .article-body {
+    font-family: 'Faustina', serif !important;
+    font-size: 1.4rem;
+    font-style: ;
+    color: #4A4A4A;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .article-subtitle {
+    font-size: 2rem;
+    color: #8B0000;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .article-quote {
+    font-family: 'Milonga', cursive;
+    font-size: 1.6rem;
+    color:#FFB74D;
+    background-color: #8B0000;
+    border-left: 4px solid #FFB74D;
+    padding: 1rem;
+    margin: 1.5rem 0;
+  }
+  
+  .article-category {
+    margin-top: 2rem;
+    font-weight: bold;
+    color: #4A4A4A;
+  }
+
+/* Galerie Articol Roma */
+.article-galerie {
+  background-color: #FFB74D;
+  padding: 2rem;
+  border-radius: 0.5rem;
+}
+
+.article-galerie .grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+@media (max-width: 768px) {
+  .article-galerie .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Stiluri noi pentru sidebar */
+.sidebar-section {
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.sidebar-book {
+  background-color: #dee5e7;
+}
+
+.sidebar-categories {
+  background-color: #dee5e7;
+}
+
+.sidebar-ads {
+  background-color: #dee5e7;
+}
+
+.sidebar-useful {
+  background-color: #dee5e7;
+}
+
+.sidebar-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: #8B0000;
+}
+
+.sidebar-link {
+  color: #8B0000;
+  text-decoration: none;
+}
+
+.sidebar-link:hover {
+  text-decoration: underline;
+}
+
+.buy-button {
+  display: block;
+  text-align: center;
+  background-color: #8B0000;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.buy-button:hover {
+  background-color: #6D071A;
+}
+
+/* Stil pentru hero title */
+.hero-title {
+  color: #FFB74D;
+}
+
+/* Reducerea spațiului dintre header și conținut */
+.content-wrapper {
+  margin-top: -1rem; /* Ajustați această valoare pentru a reduce spațiul */
+}

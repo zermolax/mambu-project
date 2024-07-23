@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+    font-family: 'Faustina', serif;
+  }
+  
+  .article-content {
+    font-family: 'Faustina', serif;
+    line-height: 1.6;
+    font-size: 1.1rem;
+  }

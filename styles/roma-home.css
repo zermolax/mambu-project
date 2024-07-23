@@ -1,0 +1,198 @@
+/* hero-section */
+
+.hero-section {
+    position: relative;
+    height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+  }
+  
+  .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .hero-content {
+    position: relative;
+    z-index: 1;
+  }
+  
+  .hero-title {
+    font-size: 3.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #FFB74D;
+  }
+  
+  .hero-description {
+    font-size: 1.25rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+/* category-section */
+
+  .category-section {
+    padding: 1.5rem;
+  }
+  
+  .category-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #8B0000;
+  }
+  
+  .category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .category-card {
+    display: block;
+    background-color: white;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  .category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .category-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .category-card-content {
+    padding: 1rem;
+  }
+  
+  .category-card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: #8B0000;
+    transition: color 0.3s ease;
+  }
+  
+  .category-card:hover .category-card-title {
+    color: #6D071A;
+  }
+  
+  .category-card-description {
+    font-size: 0.9rem;
+    color: #4A4A4A;
+  }
+  
+  .view-all-button {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background-color: #8B0000;
+    color: white;
+    text-decoration: none;
+    border-radius: 0.25rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+  
+  .view-all-button:hover {
+    background-color: #6D071A;
+  }
+  
+  /* Culori specifice pentru fiecare categorie */
+  .category-istoria { background-color: #FFB74D; }
+  .category-legende { background-color: #e3f6ff; }
+  .category-personalitati { background-color: #FFB74D; }
+  .category-arta { background-color: #e3f6ff; }
+  .category-religie { background-color: #FFB74D; }
+  .category-vatican { background-color: #e3f6ff; }
+  .category-monumente { background-color: #FFB74D; }
+  .category-biserici { background-color: #e3f6ff; }
+  .category-titani { background-color: #FFB74D; }
+  .category-muzee { background-color: #e3f6ff; }
+  .category-tururi { background-color: #FFE4E1; }
+  .category-librarie { background-color: #e3f6ff; }
+
+  /* Stiluri noi pentru sidebar */
+.sidebar-section {
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .sidebar-book {
+    background-color: #dee5e7;
+  }
+  
+  .sidebar-categories {
+    background-color: #dee5e7;
+  }
+  
+  .sidebar-ads {
+    background-color: #dee5e7;
+  }
+  
+  .sidebar-useful {
+    background-color: #dee5e7;
+  }
+  
+  .sidebar-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: #8B0000;
+  }
+  
+  .sidebar-link {
+    color: #8B0000;
+    text-decoration: none;
+  }
+  
+  .sidebar-link:hover {
+    text-decoration: underline;
+  }
+  
+  .buy-button {
+    display: block;
+    text-align: center;
+    background-color: #8B0000;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  .buy-button:hover {
+    background-color: #6D071A;
+  }
+
+  .view-all-button {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background-color: #8B0000;
+    color: white;
+    text-decoration: none;
+    border-radius: 0.25rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+  
+  .view-all-button:hover {
+    background-color: #6D071A;
+  }

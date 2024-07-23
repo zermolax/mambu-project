@@ -1,3 +1,4 @@
+import React from 'react';
 import Link from 'next/link'
 
 export default function Home() {
@@ -15,7 +16,7 @@ export default function Home() {
         <div className="bg-white p-6 rounded-lg shadow-lg">
           <h2 className="text-2xl font-semibold mb-4">Descoperă Roma</h2>
           <p className="mb-4">Călătoriți în timp și spațiu prin istoria fascinantă a Romei. De la monumente antice la secrete bine păstrate, această secțiune vă oferă un ghid complet al Orașului Etern.</p>
-          <Link href="/rome" className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition-colors">
+          <Link href="/roma" className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition-colors">
             Începe Aventura în Roma
           </Link>
         </div>

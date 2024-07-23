@@ -1,0 +1,132 @@
+/* kids-home.css */
+
+/* Hero Section */
+.hero-section {
+    position: relative;
+    height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+  }
+  
+  .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .hero-content {
+    position: relative;
+    z-index: 1;
+  }
+  
+  .hero-title {
+    font-size: 3.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #4a9eff;
+  }
+  
+  .hero-description {
+    font-size: 1.25rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  /* Category Section */
+  .category-section {
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    border-radius: 0.5rem;
+  }
+  
+  .category-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #4a9eff;
+  }
+  
+  .category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .category-card {
+    display: block;
+    background-color: white;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  .category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .category-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .category-card-content {
+    padding: 1rem;
+  }
+  
+  .category-card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: #4a9eff;
+  }
+  
+  .category-card-description {
+    font-size: 0.9rem;
+    color: #4A4A4A;
+  }
+  
+  .view-all-button {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background-color: #4a9eff;
+    color: white;
+    text-decoration: none;
+    border-radius: 0.25rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+  
+  .view-all-button:hover {
+    background-color: #3a7fcf;
+  }
+  
+  /* Culori specifice pentru fiecare categorie */
+  .category-cantece { background-color: #E6F3FF; }
+  .category-poezii { background-color: #FFE4E1; }
+  .category-povestiri { background-color: #E6F3FF; }
+  .category-fabule { background-color: #FFE4E1; }
+  .category-carti { background-color: #E6F3FF; }
+  .category-jocuri { background-color: #FFE4E1; }
+  .category-canale-youtube { background-color: #E6F3FF; }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: 2.5rem;
+    }
+  
+    .category-grid {
+      grid-template-columns: 1fr;
+    }
+  }
