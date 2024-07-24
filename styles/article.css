@@ -1,0 +1,27 @@
+.article-quote {
+    font-family: 'Milonga', cursive;
+    font-size: 1.6rem;
+    color: #FFB74D;
+    background-color: #8B0000;
+    border-left: 4px solid #FFB74D;
+    padding: 1rem;
+    margin: 1.5rem 0;
+  }
+  
+  .article-refrain {
+    background-color: #f0f0f0;
+    padding: 1rem;
+    margin: 1.5rem 0;
+    border-radius: 0.5rem;
+  }
+  
+  .prose h3 {
+    font-size: 2rem;
+    color: #8B0000;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .hero-title {
+    color: #FFB74D;
+  }

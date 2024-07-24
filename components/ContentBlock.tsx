@@ -1,43 +1,49 @@
-// components/ContentBlock.tsx
-
+import React from 'react';
 import Image from 'next/image';
+import RichTextContent from './RichTextContent';
 
-interface ContentBlockProps {
-  block: {
-    type: string;
-    content: string;
-    image?: {
-      url: string;
-      alt: string;
-    };
-  };
-}
+const ContentBlock = ({ block }) => {
+  switch (block.__component) {
+    case 'content.text-block':
+      return <RichTextContent content={block.content} />;
 
-export default function ContentBlock({ block }: ContentBlockProps) {
-  switch (block.type) {
-    case 'text':
-      return <p className="mb-4 font-milonga text-gray-800">{block.content}</p>;
-    case 'heading':
-      return <h2 className="text-2xl font-bold mb-4 font-farro text-pink-700">{block.content}</h2>;
-    case 'image':
+    case 'image.image-block':
+      if (block.image?.data) {
+        return (
+          <figure className="my-4">
+            <Image
+              src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${block.image.data.attributes.url}`}
+              alt={block.caption || 'Image'}
+              width={600}
+              height={400}
+              className="w-full h-auto"
+            />
+            {block.caption && <figcaption className="text-center mt-2">{block.caption}</figcaption>}
+          </figure>
+        );
+      }
+      return null;
+
+    case 'quote.citate':
       return (
-        <div className="my-6">
-          <Image
-            src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${block.image?.url}`}
-            alt={block.image?.alt || 'Imagine articol'}
-            width={600}
-            height={400}
-            className="rounded-lg shadow-lg w-full h-auto"
-          />
-        </div>
-      );
-    case 'quote':
-      return (
-        <blockquote className="border-l-4 border-pink-500 pl-4 italic my-4 text-gray-700">
-          {block.content}
+        <blockquote className="article-quote">
+          <p>{block.text}</p>
+          {block.autor && <footer>— {block.autor}</footer>}
         </blockquote>
       );
+
+    case 'content.refrain':
+      return (
+        <div className="bg-gray-100 p-4 my-4 rounded">
+          <h3 className="font-bold mb-2">Refren:</h3>
+          <RichTextContent content={block.content} />
+        </div>
+      );
+
     default:
+      console.log('Unknown component:', block.__component);
       return null;
   }
-}
+};
+
+export default ContentBlock;

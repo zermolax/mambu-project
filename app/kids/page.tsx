@@ -1,23 +1,39 @@
 import React from 'react';
 import { getArticles, getCategories, getBookRecommendation } from '@/lib/api';
-import ArticleList from '@/components/ArticleList';
+import ArticlePreview from '@/components/ArticlePreview';
 import CategoryList from '@/components/CategoryList';
 import Sidebar from '@/components/Sidebar';
+import SectionHeader from '@/components/SectionHeader';
 
 export default async function KidsHomePage() {
-  try {
-    const articlesData = await getArticles('kids', 1, 6);
-    const categories = await getCategories('kids');
-    const bookRecommendation = await getBookRecommendation('kids');
+  const articlesData = await getArticles('kids', 1, 6);
+  const categories = await getCategories('kids');
+  const bookRecommendation = await getBookRecommendation('kids');
 
-    return (
-      <div className="container mx-auto px-4 py-8 flex">
-        <main className="w-3/4 pr-8">
-          <h1 className="text-4xl font-bold mb-8 text-center text-blue-600">Lumea Magică a Copiilor</h1>
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <SectionHeader 
+        title="Lumea Magică a Copiilor"
+        subtitle="Descoperă povești, cântece și activități pentru cei mici"
+        section="kids"
+      />
+      <div className="flex flex-col md:flex-row">
+        <main className="w-full md:w-3/4 pr-0 md:pr-8">
           <CategoryList categories={categories} section="kids" />
-          <ArticleList articles={articlesData.data} section="kids" />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {articlesData.data.map((article) => (
+              <ArticlePreview
+                key={article.id}
+                title={article.attributes.title}
+                excerpt={article.attributes.excerpt || ''}
+                slug={article.attributes.slug}
+                imageUrl={article.attributes.coverImage?.data?.attributes?.url || ''}
+                section="kids"
+              />
+            ))}
+          </div>
         </main>
-        <aside className="w-1/4">
+        <aside className="w-full md:w-1/4 mt-8 md:mt-0">
           <Sidebar 
             type="kids"
             categories={categories}
@@ -25,9 +41,6 @@ export default async function KidsHomePage() {
           />
         </aside>
       </div>
-    );
-  } catch (error) {
-    console.error('Error in KidsHomePage:', error);
-    return <div>An error occurred. Please try again later. Details: {(error as Error).message}</div>;
-  }
+    </div>
+  );
 }

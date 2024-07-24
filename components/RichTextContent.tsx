@@ -1,61 +1,38 @@
 import React from 'react';
-import Image from 'next/image';
 
-interface BlockContent {
-  type: string;
-  children?: BlockContent[];
-  text?: string;
-  url?: string;
-  alt?: string;
-  caption?: string;
-  level?: number;
-}
+const RichTextContent = ({ content }) => {
+  if (typeof content === 'string') {
+    return <p>{content}</p>;
+  }
 
-interface RichTextContentProps {
-  content: BlockContent[];
-}
-
-const RichTextContent: React.FC<RichTextContentProps> = ({ content }) => {
-  const renderBlock = (block: BlockContent, index: number): React.ReactNode => {
-    switch (block.type) {
+  const renderNode = (node, index) => {
+    switch (node.type) {
       case 'paragraph':
-        return <p key={index} className="mb-4">{block.children?.map((child, i) => renderBlock(child, i))}</p>;
-      case 'heading':
-        const HeadingTag = `h${block.level}` as keyof JSX.IntrinsicElements;
-        return <HeadingTag key={index} className="font-['Besley'] text-[#8B0000] mb-4">{block.children?.map((child, i) => renderBlock(child, i))}</HeadingTag>;
-      case 'image':
-        return (
-          <figure key={index} className="my-4">
-            <Image
-              src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${block.url}`}
-              alt={block.alt || ''}
-              width={400}
-              height={300}
-              className="rounded-lg"
-            />
-            {block.caption && <figcaption className="text-center mt-2">{block.caption}</figcaption>}
-          </figure>
-        );
-      case 'quote':
-        return (
-          <blockquote key={index} className="border-l-4 border-[#8B0000] pl-4 italic my-4">
-            {block.children?.map((child, i) => renderBlock(child, i))}
-          </blockquote>
-        );
-      case 'code':
-        return (
-          <pre key={index} className="bg-gray-100 p-4 rounded-lg my-4 overflow-x-auto">
-            <code>{block.children?.map((child, i) => renderBlock(child, i))}</code>
-          </pre>
-        );
+        return <p key={index}>{node.children.map((child, i) => renderNode(child, `${index}-${i}`))}</p>;
       case 'text':
-        return block.text;
+        let text = node.text;
+        if (node.bold) text = <strong key={index}>{text}</strong>;
+        if (node.italic) text = <em key={index}>{text}</em>;
+        if (node.underline) text = <u key={index}>{text}</u>;
+        return text;
+      case 'heading':
+        const HeadingTag = `h${node.level}` as keyof JSX.IntrinsicElements;
+        return <HeadingTag key={index}>{node.children.map((child, i) => renderNode(child, `${index}-${i}`))}</HeadingTag>;
+      case 'list':
+        const ListTag = node.format === 'ordered' ? 'ol' : 'ul';
+        return (
+          <ListTag key={index}>
+            {node.children.map((item, i) => (
+              <li key={`${index}-${i}`}>{item.children.map((child, j) => renderNode(child, `${index}-${i}-${j}`))}</li>
+            ))}
+          </ListTag>
+        );
       default:
         return null;
     }
   };
 
-  return <div>{content.map((block, index) => renderBlock(block, index))}</div>;
+  return <>{content.map((node, index) => renderNode(node, index))}</>;
 };
 
 export default RichTextContent;

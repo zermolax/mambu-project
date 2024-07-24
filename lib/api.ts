@@ -26,29 +26,29 @@ export const fetchAPI = async (endpoint: string, params = {}) => {
     throw error;
   }
 };
-export const getArticles = async (section: 'kids' | 'roma', page = 1, pageSize = 10, category?: string, period?: number) => {
+
+export const getArticles = async (section: 'kids' | 'roma', page = 1, pageSize = 10, category?: string) => {
   try {
     const filters: any = { section: { $eq: section } };
     if (category) {
       filters.category = { $eq: category };
     }
-    if (period && section === 'roma') {
-      filters.period = { $gte: period };
-    }
+    
+    console.log('Filtre API:', JSON.stringify(filters, null, 2));
     
     const response = await fetchAPI('/articles', {
-      pagination: {
-        page,
-        pageSize,
-      },
+      pagination: { page, pageSize },
       sort: ['createdAt:desc'],
       filters,
       populate: ['coverImage'],
-      fields: ['title', 'slug', 'category', 'excerpt'] // Asigurați-vă că includeți slug-ul
+      fields: ['title', 'slug', 'category', 'excerpt']
     });
+    
+    console.log('Răspuns API:', JSON.stringify(response, null, 2));
+    
     return response;
   } catch (error) {
-    console.error(`Error fetching articles for ${section}:`, error);
+    console.error(`Eroare la preluarea articolelor pentru ${section}:`, error);
     throw error;
   }
 };

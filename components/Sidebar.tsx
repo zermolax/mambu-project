@@ -20,13 +20,13 @@ const Sidebar: React.FC<SidebarProps> = ({ type, categories, bookRecommendation 
       {/* Recomandare carte */}
       <div className="sidebar-section sidebar-book">
         <div className="bg-white p-4 rounded-lg shadow">
-          <Image
-            src={bookRecommendation.imageUrl}
-            alt={bookRecommendation.title}
-            width={250}
-            height={250}
-            className="mx-auto mb-2"
-          />
+        <Image
+        src={bookRecommendation.imageUrl}
+        alt={bookRecommendation.title}
+        width={250}
+        height={250}
+        className="mx-auto mb-2"
+        />
           <h3 className="text-lg font-semibold mb-1">{bookRecommendation.title}</h3>
           <p className="text-gray-600 mb-2">{bookRecommendation.price} RON</p>
           <Link href={bookRecommendation.link} className="buy-button">
