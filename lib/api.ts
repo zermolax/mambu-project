@@ -27,6 +27,8 @@ export const fetchAPI = async (endpoint: string, params = {}) => {
   }
 };
 
+// articole multiple
+
 export const getArticles = async (section: 'kids' | 'roma', page = 1, pageSize = 10, category?: string) => {
   try {
     const filters: any = { section: { $eq: section } };
@@ -53,6 +55,8 @@ export const getArticles = async (section: 'kids' | 'roma', page = 1, pageSize =
   }
 };
 
+// un singur articol
+
 export const getArticle = async (slug: string) => {
   try {
     const response = await fetchAPI(`/articles`, {
@@ -62,8 +66,11 @@ export const getArticle = async (slug: string) => {
         content: {
           populate: '*'
         },
-        seo: true
-      }
+        seo: {
+          populate: ['SharedImage']
+        }
+      },
+      fields: ['title', 'slug', 'excerpt', 'category', 'date', 'updatedAt'] // Adăugăm 'date' aici
     });
     if (response.data && response.data.length > 0) {
       return response.data[0];
@@ -76,6 +83,8 @@ export const getArticle = async (slug: string) => {
     throw error;
   }
 };
+
+// categorii
 
 export const getCategories = async (section: 'kids' | 'roma') => {
   try {
@@ -95,6 +104,8 @@ export const getCategories = async (section: 'kids' | 'roma') => {
     throw error;
   }
 };
+
+//recomandari carte
 
 export const getBookRecommendation = async (category: 'kids' | 'roma') => {
   try {

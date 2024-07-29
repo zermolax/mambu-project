@@ -1,7 +1,9 @@
+'use client'
+
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import '@/styles/sidebar.css';
+import { useAppContext } from '@/context/AppContext';
 
 interface SidebarProps {
   type: 'kids' | 'roma';
@@ -15,18 +17,20 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ type, categories, bookRecommendation }) => {
+  const { currentSection } = useAppContext();
+
   return (
     <div>
       {/* Recomandare carte */}
       <div className="sidebar-section sidebar-book">
         <div className="bg-white p-4 rounded-lg shadow">
-        <Image
-        src={bookRecommendation.imageUrl}
-        alt={bookRecommendation.title}
-        width={250}
-        height={250}
-        className="mx-auto mb-2"
-        />
+          <Image
+            src={bookRecommendation.imageUrl}
+            alt={bookRecommendation.title}
+            width={250}
+            height={250}
+            className="mx-auto mb-2"
+          />
           <h3 className="text-lg font-semibold mb-1">{bookRecommendation.title}</h3>
           <p className="text-gray-600 mb-2">{bookRecommendation.price} RON</p>
           <Link href={bookRecommendation.link} className="buy-button">
@@ -41,7 +45,7 @@ const Sidebar: React.FC<SidebarProps> = ({ type, categories, bookRecommendation 
         <ul>
           {categories.map((category, index) => (
             <li key={index} className="mb-1">
-              <Link href={`/${type}/category/${encodeURIComponent(category)}`} className="sidebar-link">
+              <Link href={`/${currentSection}/category/${encodeURIComponent(category)}`} className="sidebar-link">
                 {category}
               </Link>
             </li>
