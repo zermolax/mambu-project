@@ -1,21 +1,14 @@
-'use client'
-
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useArticles } from '@/hooks/useArticles';
-import { useCategories } from '@/hooks/useCategories';
+import { getArticles, getCategories } from '@/lib/api';
 import ArticlePreview from '@/components/ArticlePreview';
 import CategoryList from '@/components/CategoryList';
 import LazySidebar from '@/components/LazySidebar';
 
-export default function RomaHomeContent({ bookRecommendation }) {
-  const { data: articlesData, isLoading: isArticlesLoading } = useArticles('roma', 1, 6);
-  const { data: categories, isLoading: isCategoriesLoading } = useCategories('roma');
-
-  if (isArticlesLoading || isCategoriesLoading) {
-    return <div>Loading...</div>;
-  }
+export default async function RomaHomeContent({ bookRecommendation }) {
+  const articlesData = await getArticles('roma', 1, 6);
+  const categories = await getCategories('roma');
 
   return (
     <div>
@@ -38,7 +31,7 @@ export default function RomaHomeContent({ bookRecommendation }) {
           <main className="w-full lg:w-3/4 lg:pr-8">
             <CategoryList categories={categories} section="roma" />
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {articlesData?.data.map((article) => (
+              {articlesData.data.map((article) => (
                 <ArticlePreview
                   key={article.id}
                   title={article.attributes.title}

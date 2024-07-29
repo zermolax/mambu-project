@@ -1,9 +1,21 @@
-import React from 'react';
-import { getBookRecommendation } from '@/lib/api';
-import KidsHomeContent from './KidsHomeContent';
+import { getArticles, getCategories, getBookRecommendation } from '@/lib/api'
+import KidsHomeContent from './KidsHomeContent'
 
-export default async function KidsHomePage() {
-  const bookRecommendation = await getBookRecommendation('kids');
+export default async function KidsPage() {
+  try {
+    const articlesData = await getArticles('kids', 1, 6)
+    const categories = await getCategories('kids')
+    const bookRecommendation = await getBookRecommendation('kids')
 
-  return <KidsHomeContent bookRecommendation={bookRecommendation} />;
+    return (
+      <KidsHomeContent
+        articlesData={articlesData}
+        categories={categories}
+        bookRecommendation={bookRecommendation}
+      />
+    )
+  } catch (error) {
+    // Această eroare va fi prinsă de fișierul error.tsx cel mai apropiat
+    throw new Error('Nu s-au putut încărca datele pentru pagina copiilor')
+  }
 }

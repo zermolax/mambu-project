@@ -1,7 +1,18 @@
-import dynamic from 'next/dynamic'
+import Sidebar from './Sidebar';
 
-const Sidebar = dynamic(() => import('./Sidebar'), {
-  loading: () => <p>Loading...</p>,
-})
+interface LazySidebarProps {
+  type: 'kids' | 'roma';
+  categories: string[];
+  bookRecommendation: {
+    title: string;
+    imageUrl: string;
+    price: number;
+    link: string;
+  };
+}
 
-export default Sidebar
+const LazySidebar: React.FC<LazySidebarProps> = (props) => {
+  return <Sidebar {...props} />;
+};
+
+export default LazySidebar;

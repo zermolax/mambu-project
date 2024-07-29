@@ -1,20 +1,15 @@
-'use client'
-
+// KidsHomeContent.tsx
 import React from 'react';
 import ArticlePreview from '@/components/ArticlePreview';
 import CategoryList from '@/components/CategoryList';
 import LazySidebar from '@/components/LazySidebar';
 import SectionHeader from '@/components/SectionHeader';
-import { useArticles } from '@/hooks/useArticles';
-import { useCategories } from '@/hooks/useCategories';
+import { getArticles, getCategories } from '@/lib/api';
 
-export default function KidsHomeContent({ bookRecommendation }) {
-  const { data: articlesData, isLoading: isArticlesLoading } = useArticles('kids', 1, 6);
-  const { data: categories, isLoading: isCategoriesLoading } = useCategories('kids');
-
-  if (isArticlesLoading || isCategoriesLoading) {
-    return <div>Loading...</div>;
-  }
+// Această componentă este acum un Server Component implicit
+export default async function KidsHomeContent({ bookRecommendation }) {
+  const articlesData = await getArticles('kids', 1, 6);
+  const categories = await getCategories('kids');
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -27,7 +22,7 @@ export default function KidsHomeContent({ bookRecommendation }) {
         <main className="w-full md:w-3/4 pr-0 md:pr-8">
           <CategoryList categories={categories} section="kids" />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {articlesData?.data.map((article) => (
+            {articlesData.data.map((article) => (
               <ArticlePreview
                 key={article.id}
                 title={article.attributes.title}

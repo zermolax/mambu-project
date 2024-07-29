@@ -1,6 +1,4 @@
-'use client'
-
-import React, { useMemo } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -19,14 +17,12 @@ const ArticlePreview: React.FC<ArticlePreviewProps> = ({
   imageUrl, 
   section 
 }) => {
-  const fullImageUrl = useMemo(() => {
-    return imageUrl.startsWith('http') 
-      ? imageUrl 
-      : `${process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337'}${imageUrl}`;
-  }, [imageUrl]);
+  const fullImageUrl = imageUrl.startsWith('http') 
+    ? imageUrl 
+    : `${process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337'}${imageUrl}`;
 
   return (
-    <Link href={`/${section}/${slug}`} className="block">
+    <Link href={`/${section}/${slug}`}>
       <div className="border rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
         <div className="relative h-48">
           <Image
@@ -35,10 +31,6 @@ const ArticlePreview: React.FC<ArticlePreviewProps> = ({
             layout="fill"
             objectFit="cover"
             loading="lazy"
-            onError={(e) => {
-              console.error('Error loading image:', fullImageUrl);
-              e.currentTarget.src = '/placeholder-image.jpg';
-            }}
           />
         </div>
         <div className="p-4">
@@ -50,4 +42,4 @@ const ArticlePreview: React.FC<ArticlePreviewProps> = ({
   );
 };
 
-export default React.memo(ArticlePreview);
+export default ArticlePreview;

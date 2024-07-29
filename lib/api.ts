@@ -1,13 +1,8 @@
-import axios from 'axios';
 import qs from 'qs';
 
 const strapiURL = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337';
 
-const axiosInstance = axios.create({
-  baseURL: `${strapiURL}/api`,
-});
-
-export const fetchAPI = async (endpoint: string, params = {}) => {
+export const fetchAPI = async (endpoint: string, params = {}, revalidate: number | false = 3600) => {
   try {
     const mergedParams = {
       populate: '*',
@@ -16,18 +11,25 @@ export const fetchAPI = async (endpoint: string, params = {}) => {
     const queryString = qs.stringify(mergedParams, {
       encodeValuesOnly: true,
     });
-    const urlWithParams = `${endpoint}?${queryString}`;
+    const urlWithParams = `${strapiURL}/api${endpoint}?${queryString}`;
     
     console.log('Fetching from:', urlWithParams);
-    const response = await axiosInstance.get(urlWithParams);
-    return response.data;
+    const response = await fetch(urlWithParams, {
+      next: { revalidate }
+    });
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    return await response.json();
   } catch (error) {
     console.error('Error fetching from Strapi:', error);
     throw error;
   }
 };
 
-// articole multiple
+// articole
 
 export const getArticles = async (section: 'kids' | 'roma', page = 1, pageSize = 10, category?: string) => {
   try {
@@ -36,17 +38,13 @@ export const getArticles = async (section: 'kids' | 'roma', page = 1, pageSize =
       filters.category = { $eq: category };
     }
     
-    console.log('Filtre API:', JSON.stringify(filters, null, 2));
-    
     const response = await fetchAPI('/articles', {
       pagination: { page, pageSize },
       sort: ['createdAt:desc'],
       filters,
       populate: ['coverImage'],
       fields: ['title', 'slug', 'category', 'excerpt']
-    });
-    
-    console.log('Răspuns API:', JSON.stringify(response, null, 2));
+    }, 60); // Revalidare la fiecare 60 secunde
     
     return response;
   } catch (error) {
@@ -54,8 +52,6 @@ export const getArticles = async (section: 'kids' | 'roma', page = 1, pageSize =
     throw error;
   }
 };
-
-// un singur articol
 
 export const getArticle = async (slug: string) => {
   try {
@@ -70,8 +66,9 @@ export const getArticle = async (slug: string) => {
           populate: ['SharedImage']
         }
       },
-      fields: ['title', 'slug', 'excerpt', 'category', 'date', 'updatedAt'] // Adăugăm 'date' aici
-    });
+      fields: ['title', 'slug', 'excerpt', 'category', 'date', 'updatedAt']
+    }, 300); // Revalidare la fiecare 5 minute
+    
     if (response.data && response.data.length > 0) {
       return response.data[0];
     } else {
@@ -112,7 +109,7 @@ export const getBookRecommendation = async (category: 'kids' | 'roma') => {
     // Aici puteți înlocui această logică cu o cerere reală către API dacă aveți un endpoint pentru recomandări de cărți
     return {
       title: `Carte recomandată pentru ${category === 'kids' ? 'copii' : 'Roma'}`,
-      imageUrl: '/images/book-placeholder.png', // Asigurați-vă că aveți o imagine placeholder în directorul public
+      imageUrl: '/images/book-placeholder.png',
       price: 39.99,
       link: `/shop/${category}-book`,
     };

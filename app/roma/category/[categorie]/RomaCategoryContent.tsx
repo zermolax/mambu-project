@@ -1,20 +1,13 @@
-'use client'
-
 import React from 'react';
-import { useArticles } from '@/hooks/useArticles';
-import { useCategories } from '@/hooks/useCategories';
+import { getArticles, getCategories } from '@/lib/api';
 import ArticlePreview from '@/components/ArticlePreview';
 import LazySidebar from '@/components/LazySidebar';
 import SectionHeader from '@/components/SectionHeader';
 import ChronologicalNavigation from '@/components/ChronologicalNavigation';
 
-export default function RomaCategoryContent({ bookRecommendation, categorie }) {
-  const { data: articlesData, isLoading: isArticlesLoading } = useArticles('roma', 1, 10, categorie);
-  const { data: categories, isLoading: isCategoriesLoading } = useCategories('roma');
-
-  if (isArticlesLoading || isCategoriesLoading) {
-    return <div>Loading...</div>;
-  }
+export default async function RomaCategoryContent({ bookRecommendation, categorie }) {
+  const articlesData = await getArticles('roma', 1, 10, categorie);
+  const categories = await getCategories('roma');
 
   // Aici puteți adăuga logica pentru a genera perioadele pentru ChronologicalNavigation
   const perioade = [-800, -500, -200, 0, 200, 500]; // Exemplu de perioade
@@ -32,7 +25,7 @@ export default function RomaCategoryContent({ bookRecommendation, categorie }) {
         </div>
         <main className="w-full lg:w-8/12 lg:px-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {articlesData?.data.map((article) => (
+            {articlesData.data.map((article) => (
               <ArticlePreview
                 key={article.id}
                 title={article.attributes.title}

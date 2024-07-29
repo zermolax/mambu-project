@@ -1,9 +1,12 @@
-'use client'
-
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useAppContext } from '@/context/AppContext';
+import dynamic from 'next/dynamic';
+
+const DynamicClientSidebarContent = dynamic(() => import('./ClientSidebarContent'), {
+  loading: () => <p>Loading interactive content...</p>,
+  ssr: false
+});
 
 interface SidebarProps {
   type: 'kids' | 'roma';
@@ -17,8 +20,6 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ type, categories, bookRecommendation }) => {
-  const { currentSection } = useAppContext();
-
   return (
     <div>
       {/* Recomandare carte */}
@@ -45,7 +46,7 @@ const Sidebar: React.FC<SidebarProps> = ({ type, categories, bookRecommendation 
         <ul>
           {categories.map((category, index) => (
             <li key={index} className="mb-1">
-              <Link href={`/${currentSection}/category/${encodeURIComponent(category)}`} className="sidebar-link">
+              <Link href={`/${type}/category/${encodeURIComponent(category)}`} className="sidebar-link">
                 {category}
               </Link>
             </li>
@@ -53,33 +54,8 @@ const Sidebar: React.FC<SidebarProps> = ({ type, categories, bookRecommendation 
         </ul>
       </div>
 
-      {/* Anunțuri AdSense */}
-      <div className="sidebar-section sidebar-ads">
-        <h2 className="sidebar-title">Publicitate</h2>
-        <div className="bg-gray-200 h-60 flex items-center justify-center text-gray-500">
-          Spațiu rezervat pentru AdSense
-        </div>
-      </div>
-
-      {/* Resurse utile */}
-      <div className="sidebar-section sidebar-useful">
-        <h2 className="sidebar-title">Resurse utile</h2>
-        <ul>
-          {type === 'kids' ? (
-            <>
-              <li><Link href="#" className="sidebar-link">Activități pentru copii</Link></li>
-              <li><Link href="#" className="sidebar-link">Recomandări de lectură</Link></li>
-              <li><Link href="#" className="sidebar-link">Jocuri educative online</Link></li>
-            </>
-          ) : (
-            <>
-              <li><Link href="#" className="sidebar-link">Ghid turistic Roma</Link></li>
-              <li><Link href="#" className="sidebar-link">Harta monumentelor</Link></li>
-              <li><Link href="#" className="sidebar-link">Calendar evenimente</Link></li>
-            </>
-          )}
-        </ul>
-      </div>
+      {/* Conținut dinamic încărcat pe client */}
+      <DynamicClientSidebarContent type={type} />
     </div>
   );
 };

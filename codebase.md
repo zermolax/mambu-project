@@ -1316,6 +1316,8 @@ export const fetchAPI = async (endpoint: string, params = {}) => {
   }
 };
 
+// articole multiple
+
 export const getArticles = async (section: 'kids' | 'roma', page = 1, pageSize = 10, category?: string) => {
   try {
     const filters: any = { section: { $eq: section } };
@@ -1342,6 +1344,8 @@ export const getArticles = async (section: 'kids' | 'roma', page = 1, pageSize =
   }
 };
 
+// un singur articol
+
 export const getArticle = async (slug: string) => {
   try {
     const response = await fetchAPI(`/articles`, {
@@ -1351,8 +1355,11 @@ export const getArticle = async (slug: string) => {
         content: {
           populate: '*'
         },
-        seo: true
-      }
+        seo: {
+          populate: ['SharedImage']
+        }
+      },
+      fields: ['title', 'slug', 'excerpt', 'category', 'date', 'updatedAt'] // Adăugăm 'date' aici
     });
     if (response.data && response.data.length > 0) {
       return response.data[0];
@@ -1365,6 +1372,8 @@ export const getArticle = async (slug: string) => {
     throw error;
   }
 };
+
+// categorii
 
 export const getCategories = async (section: 'kids' | 'roma') => {
   try {
@@ -1384,6 +1393,8 @@ export const getCategories = async (section: 'kids' | 'roma') => {
     throw error;
   }
 };
+
+//recomandari carte
 
 export const getBookRecommendation = async (category: 'kids' | 'roma') => {
   try {
@@ -1555,6 +1566,66 @@ const Sidebar: React.FC<SidebarProps> = ({ type, categories, bookRecommendation 
 };
 
 export default Sidebar;
+```
+
+# components\SEO.tsx
+
+```tsx
+import { Metadata } from 'next';
+
+interface SEOProps {
+  metaTitle: string;
+  metaDescription: string;
+  articleDate?: string;
+  sharedImage?: {
+    alt: string;
+    media?: {
+      url: string;
+    };
+  };
+}
+
+export function generateMetadata({ 
+  metaTitle, 
+  metaDescription, 
+  articleDate, 
+  sharedImage 
+}: SEOProps): Metadata {
+  const ogImage = sharedImage && sharedImage.media && sharedImage.media.url
+    ? [
+        {
+          url: sharedImage.media.url,
+          alt: sharedImage.alt || metaTitle,
+        }
+      ]
+    : undefined;
+
+  return {
+    title: metaTitle,
+    description: metaDescription,
+    openGraph: {
+      title: metaTitle,
+      description: metaDescription,
+      images: ogImage,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: metaTitle,
+      description: metaDescription,
+      images: ogImage ? [ogImage[0].url] : undefined,
+    },
+    ...(articleDate && {
+      'article:published_time': articleDate
+    }),
+  };
+}
+
+const SEO: React.FC<SEOProps> = ({ metaTitle, metaDescription, articleDate, sharedImage }) => {
+  // Acest component nu mai trebuie să returneze nimic vizibil
+  return null;
+};
+
+export default SEO;
 ```
 
 # components\SectionHeader.tsx
@@ -2005,6 +2076,53 @@ export default function AlphabeticalNavigation() {
 }
 ```
 
+# app\sitemap.ts
+
+```ts
+import { getArticles } from '@/lib/api';
+import { MetadataRoute } from 'next';
+
+const BASE_URL = 'http://localhost:3000'; // Schimbați la URL-ul real în producție
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  console.log('Generating sitemap...');
+
+  const baseRoutes = ['', '/kids', '/roma'].map((route) => ({
+    url: `${BASE_URL}${route}`,
+    lastModified: new Date().toISOString(),
+  }));
+
+  try {
+    const kidsArticles = await getArticles('kids');
+    const romaArticles = await getArticles('roma');
+    const allArticles = [...kidsArticles.data, ...romaArticles.data];
+
+    const articleEntries = allArticles.map((article) => {
+      const url = `${BASE_URL}/${article.attributes.section}/${article.attributes.slug}`;
+      let lastModified;
+      try {
+        // Folosim câmpul 'date' pentru conținutul evergreen
+        lastModified = article.attributes.date 
+          ? new Date(article.attributes.date).toISOString()
+          : new Date().toISOString();
+      } catch (error) {
+        console.warn(`Invalid date for article ${url}, using current date`);
+        lastModified = new Date().toISOString();
+      }
+      return { url, lastModified };
+    });
+
+    const result = [...baseRoutes, ...articleEntries];
+    console.log(`Sitemap generated with ${result.length} URLs`);
+    return result;
+  } catch (error) {
+    console.error('Error generating sitemap:', error);
+    console.log('Returning base routes only');
+    return baseRoutes;
+  }
+}
+```
+
 # app\page.tsx
 
 ```tsx
@@ -2215,7 +2333,7 @@ import { useArticles } from '@/hooks/useArticles';
 import { useCategories } from '@/hooks/useCategories';
 import ArticlePreview from '@/components/ArticlePreview';
 import CategoryList from '@/components/CategoryList';
-import Sidebar from '@/components/Sidebar';
+import LazySidebar from '@/components/LazySidebar';
 
 export default function RomaHomeContent({ bookRecommendation }) {
   const { data: articlesData, isLoading: isArticlesLoading } = useArticles('roma', 1, 6);
@@ -2265,7 +2383,7 @@ export default function RomaHomeContent({ bookRecommendation }) {
           </main>
           
           <aside className="w-full lg:w-1/4 mt-8 lg:mt-0">
-            <Sidebar 
+            <LazySidebar 
               type="roma"
               categories={categories}
               bookRecommendation={bookRecommendation}
@@ -2290,6 +2408,28 @@ export default async function RomaHomePage() {
 
   return <RomaHomeContent bookRecommendation={bookRecommendation} />;
 }
+```
+
+# app\audiobooks\page.tsx
+
+```tsx
+export default function AudiobooksPage() {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <h1 className="text-3xl font-bold mb-4">Cărți Audio</h1>
+        <p className="mb-4">Ascultă poveștile tale preferate oricând și oriunde!</p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {['Poveste 1', 'Poveste 2', 'Poveste 3'].map((title, index) => (
+            <div key={index} className="bg-white p-4 rounded shadow">
+              <h2 className="text-xl font-semibold mb-2">{title}</h2>
+              <p>O scurtă descriere a cărții audio...</p>
+              <button className="mt-2 bg-yellow-500 text-white px-4 py-2 rounded">Ascultă acum</button>
+            </div>
+          ))}
+        </div>
+      </div>
+    )
+  }
 ```
 
 # app\kids\page.tsx
@@ -2381,28 +2521,6 @@ export default function KidsHomeContent({ bookRecommendation }) {
 }
 ```
 
-# app\audiobooks\page.tsx
-
-```tsx
-export default function AudiobooksPage() {
-    return (
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-4">Cărți Audio</h1>
-        <p className="mb-4">Ascultă poveștile tale preferate oricând și oriunde!</p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {['Poveste 1', 'Poveste 2', 'Poveste 3'].map((title, index) => (
-            <div key={index} className="bg-white p-4 rounded shadow">
-              <h2 className="text-xl font-semibold mb-2">{title}</h2>
-              <p>O scurtă descriere a cărții audio...</p>
-              <button className="mt-2 bg-yellow-500 text-white px-4 py-2 rounded">Ascultă acum</button>
-            </div>
-          ))}
-        </div>
-      </div>
-    )
-  }
-```
-
 # app\about\page.tsx
 
 ```tsx
@@ -2432,8 +2550,6 @@ export default function Home() {
 # app\roma\[slug]\RomaArticleContent.tsx
 
 ```tsx
-'use client'
-
 import React from 'react';
 import Sidebar from '@/components/Sidebar';
 import Hero from '@/components/Hero';
@@ -2441,14 +2557,16 @@ import ContentBlock from '@/components/ContentBlock';
 import '@/styles/roma-article.css';
 
 export default function RomaArticleContent({ article, categories, bookRecommendation }) {
-  const { title, category, excerpt, coverImage, content, author } = article.attributes;
+  const { title, category, excerpt, coverImage, content, author, seo, date } = article.attributes;
+
+  const heroImageUrl = coverImage?.data?.attributes?.url
+    ? `${process.env.NEXT_PUBLIC_STRAPI_URL}${coverImage.data.attributes.url}`
+    : '/default-roma-hero.jpg';
 
   return (
     <>
       <Hero 
-        imageUrl={coverImage?.data?.attributes?.url 
-          ? `${process.env.NEXT_PUBLIC_STRAPI_URL}${coverImage.data.attributes.url}`
-          : '/default-hero.jpg'}
+        imageUrl={heroImageUrl}
         title={title}
         category={category}
         description={excerpt}
@@ -2457,10 +2575,9 @@ export default function RomaArticleContent({ article, categories, bookRecommenda
         <div className="flex flex-col lg:flex-row">
           <main className="w-full lg:w-2/3 lg:pr-8">
             <article className="prose max-w-none">
-              <div className="mb-6">
-                <span className="bg-gray-200 px-3 py-1 rounded-full text-sm mr-2">{category}</span>
-                {author && <span className="text-gray-600">by {author}</span>}
-              </div>
+              {author && (
+                <p className="text-gray-600 mb-4">de {author}</p>
+              )}
               {content.map((block, index) => (
                 <ContentBlock key={index} block={block} />
               ))}
@@ -2486,8 +2603,39 @@ export default function RomaArticleContent({ article, categories, bookRecommenda
 import React from 'react';
 import { getArticle, getCategories, getBookRecommendation } from '@/lib/api';
 import RomaArticleContent from './RomaArticleContent';
+import { generateMetadata as generateSEOMetadata } from '@/components/SEO';
+import { Metadata } from 'next';
 
-export default async function RomaArticlePage({ params }: { params: { slug: string } }) {
+interface PageProps {
+  params: { slug: string };
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const article = await getArticle(params.slug);
+  if (!article) {
+    return {
+      title: 'Articol negăsit',
+      description: 'Articolul căutat nu a fost găsit.'
+    };
+  }
+
+  const { title, excerpt, seo, date, coverImage } = article.attributes;
+  const sharedImage = seo?.SharedImage || (coverImage?.data?.attributes?.url
+    ? {
+        alt: title,
+        media: { url: `${process.env.NEXT_PUBLIC_STRAPI_URL}${coverImage.data.attributes.url}` }
+      }
+    : undefined);
+
+  return generateSEOMetadata({
+    metaTitle: seo?.metaTitle || title,
+    metaDescription: seo?.metaDescription || excerpt || '',
+    articleDate: date,
+    sharedImage
+  });
+}
+
+export default async function RomaArticlePage({ params }: PageProps) {
   const article = await getArticle(params.slug);
   const categories = await getCategories('roma');
   const bookRecommendation = await getBookRecommendation('roma');
@@ -2496,7 +2644,11 @@ export default async function RomaArticlePage({ params }: { params: { slug: stri
     return <div>Articolul nu a fost găsit.</div>;
   }
 
-  return <RomaArticleContent article={article} categories={categories} bookRecommendation={bookRecommendation} />;
+  return <RomaArticleContent 
+    article={article} 
+    categories={categories} 
+    bookRecommendation={bookRecommendation} 
+  />;
 }
 ```
 
@@ -2506,8 +2658,39 @@ export default async function RomaArticlePage({ params }: { params: { slug: stri
 import React from 'react';
 import { getArticle, getCategories, getBookRecommendation } from '@/lib/api';
 import KidsArticleContent from './KidsArticleContent';
+import { generateMetadata as generateSEOMetadata } from '@/components/SEO';
+import { Metadata } from 'next';
 
-export default async function KidsArticlePage({ params }: { params: { slug: string } }) {
+interface PageProps {
+  params: { slug: string };
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const article = await getArticle(params.slug);
+  if (!article) {
+    return {
+      title: 'Articol negăsit',
+      description: 'Articolul căutat nu a fost găsit.'
+    };
+  }
+
+  const { title, excerpt, seo, date, coverImage } = article.attributes;
+  const sharedImage = seo?.SharedImage || (coverImage?.data?.attributes?.url
+    ? {
+        alt: title,
+        media: { url: `${process.env.NEXT_PUBLIC_STRAPI_URL}${coverImage.data.attributes.url}` }
+      }
+    : undefined);
+
+  return generateSEOMetadata({
+    metaTitle: seo?.metaTitle || title,
+    metaDescription: seo?.metaDescription || excerpt || '',
+    articleDate: date,
+    sharedImage
+  });
+}
+
+export default async function KidsArticlePage({ params }: PageProps) {
   const article = await getArticle(params.slug);
   const categories = await getCategories('kids');
   const bookRecommendation = await getBookRecommendation('kids');
@@ -2516,15 +2699,17 @@ export default async function KidsArticlePage({ params }: { params: { slug: stri
     return <div>Articolul nu a fost găsit.</div>;
   }
 
-  return <KidsArticleContent article={article} categories={categories} bookRecommendation={bookRecommendation} />;
+  return <KidsArticleContent 
+    article={article} 
+    categories={categories} 
+    bookRecommendation={bookRecommendation} 
+  />;
 }
 ```
 
 # app\kids\[slug]\KidsArticleContent.tsx
 
 ```tsx
-'use client'
-
 import React from 'react';
 import Sidebar from '@/components/Sidebar';
 import Hero from '@/components/Hero';
@@ -2532,7 +2717,7 @@ import ContentBlock from '@/components/ContentBlock';
 import '@/styles/kids-article.css';
 
 export default function KidsArticleContent({ article, categories, bookRecommendation }) {
-  const { title, category, excerpt, coverImage, content, author } = article.attributes;
+  const { title, category, excerpt, coverImage, content, author, seo, date } = article.attributes;
 
   const heroImageUrl = coverImage?.data?.attributes?.url
     ? `${process.env.NEXT_PUBLIC_STRAPI_URL}${coverImage.data.attributes.url}`
@@ -2572,6 +2757,80 @@ export default function KidsArticleContent({ article, categories, bookRecommenda
 }
 ```
 
+# app\kids\category\[categorie]\page.tsx
+
+```tsx
+import React from 'react';
+import { getBookRecommendation } from '@/lib/api';
+import KidsCategoryContent from './KidsCategoryContent';
+
+export default async function KidsCategoryPage({ params }: { params: { categorie: string } }) {
+  const bookRecommendation = await getBookRecommendation('kids');
+  const decodedCategorie = decodeURIComponent(params.categorie);
+
+  return <KidsCategoryContent bookRecommendation={bookRecommendation} categorie={decodedCategorie} />;
+}
+```
+
+# app\kids\category\[categorie]\KidsCategoryContent.tsx
+
+```tsx
+'use client'
+
+import React from 'react';
+import { useArticles } from '@/hooks/useArticles';
+import { useCategories } from '@/hooks/useCategories';
+import ArticlePreview from '@/components/ArticlePreview';
+import LazySidebar from '@/components/LazySidebar';
+import SectionHeader from '@/components/SectionHeader';
+import AlphabeticalNavigation from '@/components/AlphabeticalNavigation';
+
+export default function KidsCategoryContent({ bookRecommendation, categorie }) {
+  const { data: articlesData, isLoading: isArticlesLoading } = useArticles('kids', 1, 10, categorie);
+  const { data: categories, isLoading: isCategoriesLoading } = useCategories('kids');
+
+  if (isArticlesLoading || isCategoriesLoading) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <SectionHeader 
+        title={categorie}
+        subtitle="Explorează conținutul pentru copii din această categorie"
+        section="kids"
+      />
+      <div className="flex flex-col md:flex-row">
+        <div className="w-full md:w-1/12 mb-4 md:mb-0">
+          <AlphabeticalNavigation />
+        </div>
+        <main className="w-full md:w-2/3 px-0 md:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {articlesData?.data.map((article) => (
+              <ArticlePreview
+                key={article.id}
+                title={article.attributes.title}
+                excerpt={article.attributes.excerpt || ''}
+                slug={article.attributes.slug}
+                imageUrl={article.attributes.coverImage?.data?.attributes?.url || ''}
+                section="kids"
+              />
+            ))}
+          </div>
+        </main>
+        <aside className="w-full md:w-1/4 mt-4 md:mt-0">
+          <LazySidebar 
+            type="kids"
+            categories={categories}
+            bookRecommendation={bookRecommendation}
+          />
+        </aside>
+      </div>
+    </div>
+  );
+}
+```
+
 # app\roma\category\[categorie]\RomaCategoryContent.tsx
 
 ```tsx
@@ -2581,7 +2840,7 @@ import React from 'react';
 import { useArticles } from '@/hooks/useArticles';
 import { useCategories } from '@/hooks/useCategories';
 import ArticlePreview from '@/components/ArticlePreview';
-import Sidebar from '@/components/Sidebar';
+import LazySidebar from '@/components/LazySidebar';
 import SectionHeader from '@/components/SectionHeader';
 import ChronologicalNavigation from '@/components/ChronologicalNavigation';
 
@@ -2622,7 +2881,7 @@ export default function RomaCategoryContent({ bookRecommendation, categorie }) {
           </div>
         </main>
         <aside className="w-full lg:w-3/12 mt-6 lg:mt-0">
-          <Sidebar 
+          <LazySidebar 
             type="roma"
             categories={categories}
             bookRecommendation={bookRecommendation}
@@ -2692,80 +2951,6 @@ export default function BookPage({ params }: { params: { id: string } }) {
       </div>
     </div>
   )
-}
-```
-
-# app\kids\category\[categorie]\page.tsx
-
-```tsx
-import React from 'react';
-import { getBookRecommendation } from '@/lib/api';
-import KidsCategoryContent from './KidsCategoryContent';
-
-export default async function KidsCategoryPage({ params }: { params: { categorie: string } }) {
-  const bookRecommendation = await getBookRecommendation('kids');
-  const decodedCategorie = decodeURIComponent(params.categorie);
-
-  return <KidsCategoryContent bookRecommendation={bookRecommendation} categorie={decodedCategorie} />;
-}
-```
-
-# app\kids\category\[categorie]\KidsCategoryContent.tsx
-
-```tsx
-'use client'
-
-import React from 'react';
-import { useArticles } from '@/hooks/useArticles';
-import { useCategories } from '@/hooks/useCategories';
-import ArticlePreview from '@/components/ArticlePreview';
-import Sidebar from '@/components/Sidebar';
-import SectionHeader from '@/components/SectionHeader';
-import AlphabeticalNavigation from '@/components/AlphabeticalNavigation';
-
-export default function KidsCategoryContent({ bookRecommendation, categorie }) {
-  const { data: articlesData, isLoading: isArticlesLoading } = useArticles('kids', 1, 10, categorie);
-  const { data: categories, isLoading: isCategoriesLoading } = useCategories('kids');
-
-  if (isArticlesLoading || isCategoriesLoading) {
-    return <div>Loading...</div>;
-  }
-
-  return (
-    <div className="container mx-auto px-4 py-8">
-      <SectionHeader 
-        title={categorie}
-        subtitle="Explorează conținutul pentru copii din această categorie"
-        section="kids"
-      />
-      <div className="flex flex-col md:flex-row">
-        <div className="w-full md:w-1/12 mb-4 md:mb-0">
-          <AlphabeticalNavigation />
-        </div>
-        <main className="w-full md:w-2/3 px-0 md:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {articlesData?.data.map((article) => (
-              <ArticlePreview
-                key={article.id}
-                title={article.attributes.title}
-                excerpt={article.attributes.excerpt || ''}
-                slug={article.attributes.slug}
-                imageUrl={article.attributes.coverImage?.data?.attributes?.url || ''}
-                section="kids"
-              />
-            ))}
-          </div>
-        </main>
-        <aside className="w-full md:w-1/4 mt-4 md:mt-0">
-          <Sidebar 
-            type="kids"
-            categories={categories}
-            bookRecommendation={bookRecommendation}
-          />
-        </aside>
-      </div>
-    </div>
-  );
 }
 ```
 

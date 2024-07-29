@@ -1,20 +1,17 @@
-'use client'
-
 import React from 'react';
-import { useArticles } from '@/hooks/useArticles';
-import { useCategories } from '@/hooks/useCategories';
+import { getArticles, getCategories } from '@/lib/api';
 import ArticlePreview from '@/components/ArticlePreview';
 import LazySidebar from '@/components/LazySidebar';
 import SectionHeader from '@/components/SectionHeader';
-import AlphabeticalNavigation from '@/components/AlphabeticalNavigation';
+import dynamic from 'next/dynamic';
 
-export default function KidsCategoryContent({ bookRecommendation, categorie }) {
-  const { data: articlesData, isLoading: isArticlesLoading } = useArticles('kids', 1, 10, categorie);
-  const { data: categories, isLoading: isCategoriesLoading } = useCategories('kids');
+const DynamicAlphabeticalNavigation = dynamic(() => import('@/components/AlphabeticalNavigation'), {
+  loading: () => <p>Loading navigation...</p>,
+});
 
-  if (isArticlesLoading || isCategoriesLoading) {
-    return <div>Loading...</div>;
-  }
+export default async function KidsCategoryContent({ bookRecommendation, categorie }) {
+  const articlesData = await getArticles('kids', 1, 10, categorie);
+  const categories = await getCategories('kids');
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -25,11 +22,11 @@ export default function KidsCategoryContent({ bookRecommendation, categorie }) {
       />
       <div className="flex flex-col md:flex-row">
         <div className="w-full md:w-1/12 mb-4 md:mb-0">
-          <AlphabeticalNavigation />
+          <DynamicAlphabeticalNavigation />
         </div>
         <main className="w-full md:w-2/3 px-0 md:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {articlesData?.data.map((article) => (
+            {articlesData.data.map((article) => (
               <ArticlePreview
                 key={article.id}
                 title={article.attributes.title}
