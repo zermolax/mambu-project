@@ -1,4 +1,3 @@
-import React from 'react';
 import Image from 'next/image';
 
 interface HeroProps {
@@ -16,9 +15,10 @@ const Hero: React.FC<HeroProps> = ({ imageUrl, title, category, description }) =
         alt={title}
         layout="fill"
         objectFit="cover"
-        className="brightness-50"
+        quality={85}
+        priority
       />
-      <div className="absolute inset-0 flex flex-col justify-center items-center text-white p-4">
+      <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-center items-center text-white p-4">
         <h1 className="text-4xl md:text-5xl font-bold mb-4 text-center hero-title">
           {title}
         </h1>

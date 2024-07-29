@@ -1,10 +1,19 @@
 import React from 'react';
-import { getBookRecommendation } from '@/lib/api';
+import { getBookRecommendation, getArticles, getCategories } from '@/lib/api';
 import KidsCategoryContent from './KidsCategoryContent';
 
 export default async function KidsCategoryPage({ params }: { params: { categorie: string } }) {
-  const bookRecommendation = await getBookRecommendation('kids');
   const decodedCategorie = decodeURIComponent(params.categorie);
+  const bookRecommendation = await getBookRecommendation('kids');
+  const articlesData = await getArticles('kids', 1, 10, decodedCategorie);
+  const categories = await getCategories('kids');
 
-  return <KidsCategoryContent bookRecommendation={bookRecommendation} categorie={decodedCategorie} />;
+  return (
+    <KidsCategoryContent
+      categorie={decodedCategorie}
+      bookRecommendation={bookRecommendation}
+      articlesData={articlesData}
+      categories={categories}
+    />
+  );
 }

@@ -1,8 +1,7 @@
 import React from 'react';
-import Image from 'next/image';
 import RichTextContent from './RichTextContent';
 
-const ContentBlock = ({ block }) => {
+const ContentBlock = ({ block, OptimizedImage }) => {
   switch (block.__component) {
     case 'content.text-block':
       return <RichTextContent content={block.content} />;
@@ -11,12 +10,11 @@ const ContentBlock = ({ block }) => {
       if (block.image?.data) {
         return (
           <figure className="my-4">
-            <Image
+            <OptimizedImage
               src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${block.image.data.attributes.url}`}
               alt={block.caption || 'Image'}
               width={600}
               height={400}
-              className="w-full h-auto"
             />
             {block.caption && <figcaption className="text-center mt-2">{block.caption}</figcaption>}
           </figure>

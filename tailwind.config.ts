@@ -18,10 +18,10 @@ const config: Config = {
         'inter': ['Inter', 'serif'],
         'besley': ['Besley', 'serif'],
         'faustina': ['Faustina', 'serif'],
-
       },
     },
   },
   plugins: [],
 };
+
 export default config;

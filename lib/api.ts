@@ -44,7 +44,7 @@ export const getArticles = async (section: 'kids' | 'roma', page = 1, pageSize =
       filters,
       populate: ['coverImage'],
       fields: ['title', 'slug', 'category', 'excerpt']
-    }, 60); // Revalidare la fiecare 60 secunde
+    });
     
     return response;
   } catch (error) {

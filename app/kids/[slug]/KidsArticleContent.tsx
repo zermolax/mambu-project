@@ -1,11 +1,11 @@
 import React from 'react';
-import Sidebar from '@/components/Sidebar';
 import Hero from '@/components/Hero';
+import OptimizedImage from '@/components/OptimizedImage';
+import LazySidebar from '@/components/LazySidebar';
 import ContentBlock from '@/components/ContentBlock';
-import '@/styles/kids-article.css';
 
 export default function KidsArticleContent({ article, categories, bookRecommendation }) {
-  const { title, category, excerpt, coverImage, content, author, seo, date } = article.attributes;
+  const { title, category, excerpt, coverImage, content, author } = article.attributes;
 
   const heroImageUrl = coverImage?.data?.attributes?.url
     ? `${process.env.NEXT_PUBLIC_STRAPI_URL}${coverImage.data.attributes.url}`
@@ -27,12 +27,16 @@ export default function KidsArticleContent({ article, categories, bookRecommenda
                 <p className="text-gray-600 mb-4">de {author}</p>
               )}
               {content.map((block, index) => (
-                <ContentBlock key={index} block={block} />
+                <ContentBlock 
+                  key={index} 
+                  block={block} 
+                  OptimizedImage={OptimizedImage}
+                />
               ))}
             </article>
           </main>
           <aside className="w-full lg:w-1/3 mt-8 lg:mt-0">
-            <Sidebar 
+            <LazySidebar 
               type="kids"
               categories={categories}
               bookRecommendation={bookRecommendation}

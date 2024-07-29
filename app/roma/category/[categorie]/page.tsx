@@ -1,10 +1,19 @@
 import React from 'react';
-import { getBookRecommendation } from '@/lib/api';
+import { getBookRecommendation, getArticles, getCategories } from '@/lib/api';
 import RomaCategoryContent from './RomaCategoryContent';
 
 export default async function RomaCategoryPage({ params }: { params: { categorie: string } }) {
-  const bookRecommendation = await getBookRecommendation('roma');
   const decodedCategorie = decodeURIComponent(params.categorie);
+  const bookRecommendation = await getBookRecommendation('roma');
+  const articlesData = await getArticles('roma', 1, 10, decodedCategorie);
+  const categories = await getCategories('roma');
 
-  return <RomaCategoryContent bookRecommendation={bookRecommendation} categorie={decodedCategorie} />;
+  return (
+    <RomaCategoryContent
+      categorie={decodedCategorie}
+      bookRecommendation={bookRecommendation}
+      articlesData={articlesData}
+      categories={categories}
+    />
+  );
 }

@@ -1,44 +1,45 @@
 import React from 'react';
-import { getArticles, getCategories } from '@/lib/api';
-import ArticlePreview from '@/components/ArticlePreview';
+import OptimizedImage from '@/components/OptimizedImage';
 import LazySidebar from '@/components/LazySidebar';
-import SectionHeader from '@/components/SectionHeader';
-import dynamic from 'next/dynamic';
+import Link from 'next/link';
+import AlphabeticalNavigation from '@/components/AlphabeticalNavigation';
 
-const DynamicAlphabeticalNavigation = dynamic(() => import('@/components/AlphabeticalNavigation'), {
-  loading: () => <p>Loading navigation...</p>,
-});
-
-export default async function KidsCategoryContent({ bookRecommendation, categorie }) {
-  const articlesData = await getArticles('kids', 1, 10, categorie);
-  const categories = await getCategories('kids');
+export default function KidsCategoryContent({ categorie, bookRecommendation, articlesData, categories }) {
+  console.log('Category articlesData:', articlesData); // Adăugați acest log pentru debugging
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <SectionHeader 
-        title={categorie}
-        subtitle="Explorează conținutul pentru copii din această categorie"
-        section="kids"
-      />
+      <h1 className="text-4xl font-bold mb-8">{categorie}</h1>
+      
       <div className="flex flex-col md:flex-row">
-        <div className="w-full md:w-1/12 mb-4 md:mb-0">
-          <DynamicAlphabeticalNavigation />
-        </div>
-        <main className="w-full md:w-2/3 px-0 md:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <aside className="w-full md:w-1/4 md:pr-8 mb-8 md:mb-0">
+          <AlphabeticalNavigation />
+        </aside>
+        
+        <main className="w-full md:w-1/2">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {articlesData.data.map((article) => (
-              <ArticlePreview
-                key={article.id}
-                title={article.attributes.title}
-                excerpt={article.attributes.excerpt || ''}
-                slug={article.attributes.slug}
-                imageUrl={article.attributes.coverImage?.data?.attributes?.url || ''}
-                section="kids"
-              />
+              <Link href={`/kids/${article.attributes.slug}`} key={article.id}>
+                <div className="border rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
+                  <OptimizedImage
+                    src={article.attributes.coverImage?.data?.attributes?.url 
+                      ? `${process.env.NEXT_PUBLIC_STRAPI_URL}${article.attributes.coverImage.data.attributes.url}`
+                      : '/placeholder-image.jpg'}
+                    alt={article.attributes.title}
+                    width={400}
+                    height={300}
+                  />
+                  <div className="p-4">
+                    <h2 className="text-xl font-bold mb-2">{article.attributes.title}</h2>
+                    <p className="text-gray-600 text-sm">{article.attributes.excerpt}</p>
+                  </div>
+                </div>
+              </Link>
             ))}
           </div>
         </main>
-        <aside className="w-full md:w-1/4 mt-4 md:mt-0">
+        
+        <aside className="w-full md:w-1/4 mt-8 md:mt-0 md:pl-8">
           <LazySidebar 
             type="kids"
             categories={categories}
