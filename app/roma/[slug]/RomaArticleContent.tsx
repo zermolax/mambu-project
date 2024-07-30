@@ -3,6 +3,7 @@ import Hero from '@/components/Hero';
 import OptimizedImage from '@/components/OptimizedImage';
 import LazySidebar from '@/components/LazySidebar';
 import ContentBlock from '@/components/ContentBlock';
+import '@/styles/roma-article.css';
 
 export default function RomaArticleContent({ article, categories, bookRecommendation }) {
   const { title, category, excerpt, coverImage, content, author } = article.attributes;
