@@ -29,6 +29,23 @@ export const fetchAPI = async (endpoint: string, params = {}, revalidate: number
   }
 };
 
+//slugs
+
+export const getArticleSlugs = async (section: 'kids' | 'roma') => {
+  try {
+    const response = await fetchAPI('/articles', {
+      filters: { section: { $eq: section } },
+      fields: ['slug'],
+      pagination: { pageSize: 10000 }, // Asigură-te că obții toate slugurile
+    });
+    
+    return response.data.map(article => article.attributes.slug);
+  } catch (error) {
+    console.error(`Error fetching article slugs for ${section}:`, error);
+    return [];
+  }
+};
+
 // articole
 
 export const getArticles = async (section: 'kids' | 'roma', page = 1, pageSize = 10, category?: string) => {
@@ -85,20 +102,19 @@ export const getArticle = async (slug: string) => {
 
 export const getCategories = async (section: 'kids' | 'roma') => {
   try {
-    const params = {
+    const response = await fetchAPI('/articles', {
       filters: {
         section: {
           $eq: section
         }
       },
       fields: ['category'],
-    };
-    const articles = await fetchAPI('/articles', params);
-    const categories = [...new Set(articles.data.map((article: any) => article.attributes.category))];
+    });
+    const categories = [...new Set(response.data.map((article: any) => article.attributes.category))];
     return categories;
   } catch (error) {
     console.error(`Error fetching categories for ${section}:`, error);
-    throw error;
+    return [];
   }
 };
 
@@ -106,15 +122,17 @@ export const getCategories = async (section: 'kids' | 'roma') => {
 
 export const getBookRecommendation = async (category: 'kids' | 'roma') => {
   try {
-    // Aici puteți înlocui această logică cu o cerere reală către API dacă aveți un endpoint pentru recomandări de cărți
-    return {
+    // Implementați logica pentru a obține recomandarea de carte
+    // Asigurați-vă că returnați un obiect complet sau null
+    const recommendation = {
       title: `Carte recomandată pentru ${category === 'kids' ? 'copii' : 'Roma'}`,
       imageUrl: '/images/book-placeholder.png',
       price: 39.99,
       link: `/shop/${category}-book`,
     };
+    return recommendation;
   } catch (error) {
     console.error(`Error fetching book recommendation for ${category}:`, error);
-    throw error;
+    return null;
   }
 };

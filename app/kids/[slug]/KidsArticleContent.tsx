@@ -3,8 +3,15 @@ import Hero from '@/components/Hero';
 import OptimizedImage from '@/components/OptimizedImage';
 import LazySidebar from '@/components/LazySidebar';
 import ContentBlock from '@/components/ContentBlock';
+import '@/styles/kids-article.css';
 
-export default function KidsArticleContent({ article, categories, bookRecommendation }) {
+interface KidsArticleContentProps {
+  article: any;
+  categories: string[];
+  bookRecommendation: any;
+}
+
+const KidsArticleContent: React.FC<KidsArticleContentProps> = ({ article, categories, bookRecommendation }) => {
   const { title, category, excerpt, coverImage, content, author } = article.attributes;
 
   const heroImageUrl = coverImage?.data?.attributes?.url
@@ -39,11 +46,13 @@ export default function KidsArticleContent({ article, categories, bookRecommenda
             <LazySidebar 
               type="kids"
               categories={categories}
-              bookRecommendation={bookRecommendation}
+              bookRecommendation={bookRecommendation} 
             />
           </aside>
         </div>
       </div>
     </>
   );
-}
+};
+
+export default KidsArticleContent;

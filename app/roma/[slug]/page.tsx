@@ -1,8 +1,8 @@
-import React from 'react';
-import { getArticle, getCategories, getBookRecommendation } from '@/lib/api';
-import RomaArticleContent from './RomaArticleContent';
-import { generateMetadata as generateSEOMetadata } from '@/components/SEO';
 import { Metadata } from 'next';
+import { getArticle, getArticleSlugs, getCategories, getBookRecommendation } from '@/lib/api';
+import { generateMetadata as generateSEOMetadata } from '@/components/SEO';
+import RomaArticleContent from './RomaArticleContent';
+import { notFound } from 'next/navigation';
 
 interface PageProps {
   params: { slug: string };
@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
   }
 
-  const { title, excerpt, seo, date, coverImage } = article.attributes;
+  const { title, excerpt, seo, date, coverImage, keywords, author } = article.attributes;
   const sharedImage = seo?.SharedImage || (coverImage?.data?.attributes?.url
     ? {
         alt: title,
@@ -29,22 +29,34 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     metaTitle: seo?.metaTitle || title,
     metaDescription: seo?.metaDescription || excerpt || '',
     articleDate: date,
-    sharedImage
+    sharedImage,
+    keywords,
+    author,
+    language: 'ro',
+    url: `https://www.example.com/roma/${params.slug}`,
   });
+}
+
+export async function generateStaticParams() {
+  const slugs = await getArticleSlugs('roma');
+  return slugs.map(slug => ({ slug }));
 }
 
 export default async function RomaArticlePage({ params }: PageProps) {
   const article = await getArticle(params.slug);
-  const categories = await getCategories('roma');
-  const bookRecommendation = await getBookRecommendation('roma');
 
   if (!article) {
-    return <div>Articolul nu a fost găsit.</div>;
+    notFound();
   }
 
-  return <RomaArticleContent 
-    article={article} 
-    categories={categories} 
-    bookRecommendation={bookRecommendation} 
-  />;
+  const categories = await getCategories('roma') || [];
+  const bookRecommendation = await getBookRecommendation('roma');
+
+  return (
+    <RomaArticleContent 
+      article={article} 
+      categories={categories} 
+      bookRecommendation={bookRecommendation} 
+    />
+  );
 }

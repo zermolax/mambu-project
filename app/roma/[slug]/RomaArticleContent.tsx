@@ -5,7 +5,13 @@ import LazySidebar from '@/components/LazySidebar';
 import ContentBlock from '@/components/ContentBlock';
 import '@/styles/roma-article.css';
 
-export default function RomaArticleContent({ article, categories, bookRecommendation }) {
+interface RomaArticleContentProps {
+  article: any;
+  categories: string[];
+  bookRecommendation: any;
+}
+
+const RomaArticleContent: React.FC<RomaArticleContentProps> = ({ article, categories, bookRecommendation }) => {
   const { title, category, excerpt, coverImage, content, author } = article.attributes;
 
   const heroImageUrl = coverImage?.data?.attributes?.url
@@ -40,11 +46,13 @@ export default function RomaArticleContent({ article, categories, bookRecommenda
             <LazySidebar 
               type="roma"
               categories={categories}
-              bookRecommendation={bookRecommendation}
+              bookRecommendation={bookRecommendation} 
             />
           </aside>
         </div>
       </div>
     </>
   );
-}
+};
+
+export default RomaArticleContent;
