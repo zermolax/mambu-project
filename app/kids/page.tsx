@@ -1,19 +1,32 @@
 import React from 'react';
-import { getBookRecommendation, getArticles, getCategories } from '@/lib/api';
+import { Metadata } from 'next';
+import { getArticles, getCategories, getBookRecommendation } from '@/lib/api';
 import KidsHomeContent from './KidsHomeContent';
+import { generateMetadata as generateSEOMetadata } from '@/components/SEO';
+import styles from './KidsHome.module.css';
+
+export async function generateMetadata(): Promise<Metadata> {
+  return generateSEOMetadata({
+    metaTitle: 'Lumea Magică a Copiilor',
+    metaDescription: 'Explorați împreună cu noi universul fascinant al copilăriei! Descoperiți povești încântătoare, cântece vesele și activități creative.',
+    keywords: 'copii, povești, cântece, activități, educație, divertisment',
+    language: 'ro',
+    url: 'https://www.example.com/kids',
+  });
+}
 
 export default async function KidsHomePage() {
-  const bookRecommendation = await getBookRecommendation('kids');
-  const articlesData = await getArticles('kids', 1, 6);
+  const articlesData = await getArticles('kids', 1, 100);
   const categories = await getCategories('kids');
-
-  console.log('KidsHomePage articlesData:', JSON.stringify(articlesData, null, 2));
+  const bookRecommendation = await getBookRecommendation('kids');
 
   return (
-    <KidsHomeContent
-      bookRecommendation={bookRecommendation}
-      articlesData={articlesData}
-      categories={categories}
-    />
+    <div className={styles.kidsContainer}>
+      <KidsHomeContent
+        articlesData={articlesData}
+        categories={categories}
+        bookRecommendation={bookRecommendation}
+      />
+    </div>
   );
 }

@@ -1,38 +1,27 @@
 import React from 'react';
+import styles from './RichTextContent.module.css';
 
 const RichTextContent = ({ content }) => {
-  if (typeof content === 'string') {
-    return <p>{content}</p>;
-  }
-
   const renderNode = (node, index) => {
+    if (typeof node === 'string') {
+      return <span key={index}>{node}</span>;
+    }
+
     switch (node.type) {
       case 'paragraph':
-        return <p key={index}>{node.children.map((child, i) => renderNode(child, `${index}-${i}`))}</p>;
+        return <p key={index} className={styles.paragraph}>{node.children.map((child, childIndex) => renderNode(child, `${index}-${childIndex}`))}</p>;
       case 'text':
         let text = node.text;
-        if (node.bold) text = <strong key={index}>{text}</strong>;
-        if (node.italic) text = <em key={index}>{text}</em>;
-        if (node.underline) text = <u key={index}>{text}</u>;
+        if (node.bold) text = <strong key={index} className={styles.bold}>{text}</strong>;
+        if (node.italic) text = <em key={index} className={styles.italic}>{text}</em>;
+        if (node.underline) text = <u key={index} className={styles.underline}>{text}</u>;
         return text;
-      case 'heading':
-        const HeadingTag = `h${node.level}` as keyof JSX.IntrinsicElements;
-        return <HeadingTag key={index}>{node.children.map((child, i) => renderNode(child, `${index}-${i}`))}</HeadingTag>;
-      case 'list':
-        const ListTag = node.format === 'ordered' ? 'ol' : 'ul';
-        return (
-          <ListTag key={index}>
-            {node.children.map((item, i) => (
-              <li key={`${index}-${i}`}>{item.children.map((child, j) => renderNode(child, `${index}-${i}-${j}`))}</li>
-            ))}
-          </ListTag>
-        );
       default:
         return null;
     }
   };
 
-  return <>{content.map((node, index) => renderNode(node, index))}</>;
+  return <div className={styles.richText}>{content.map((node, index) => renderNode(node, index))}</div>;
 };
 
 export default RichTextContent;

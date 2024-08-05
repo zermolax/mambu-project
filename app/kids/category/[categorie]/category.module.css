@@ -1,0 +1,24 @@
+/* app/kids/category/[categorie]/category.module.css */
+.categoryContainer {
+  @apply bg-kids-background text-kids-text p-6;
+}
+
+.categoryHeading {
+  @apply text-3xl font-chilanka text-kids-primary mb-6 text-center;
+}
+
+.categoryGrid {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6;
+}
+
+.categoryCard {
+  @apply bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow;
+}
+
+.categoryCardTitle {
+  @apply text-xl font-chilanka text-kids-primary mb-2;
+}
+
+.categoryCardExcerpt {
+  @apply text-sm font-balsamiq-sans text-kids-text;
+}

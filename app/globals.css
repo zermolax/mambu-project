@@ -2,6 +2,35 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* Paleta de culori pentru Kids */
+  --kids-primary: #4a9eff;
+  --kids-secondary: #FFB74D;
+  --kids-background: #E6F3FF;
+  --kids-text: #4A4A4A;
+
+  /* Paleta de culori pentru Roma */
+  --roma-primary: #8B0000;
+  --roma-secondary: #FFB74D;
+  --roma-background: #FFF5E6;
+  --roma-text: #333333;
+
+  /* Fonturi */
+  --font-kids: 'Comic Sans MS', 'Chalkboard SE', 'Arial', sans-serif;
+  --font-roma: 'Times New Roman', 'Garamond', serif;
+}
+
 body {
   @apply bg-gray-100;
+  font-family: 'Faustina', serif;
+}
+
+/* Stiluri globale pentru headings */
+h1, h2, h3, h4, h5, h6 {
+  @apply font-bold mb-4;
+}
+
+/* Stiluri globale pentru linkuri */
+a {
+  @apply text-blue-600 hover:text-blue-800;
 }

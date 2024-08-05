@@ -1,49 +1,90 @@
-import React from 'react';
-import ImageGallery from '@/components/ImageGallery';
-import LazySidebar from '@/components/LazySidebar';
+'use client';
+
+import React, { useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
+import LazySidebar from '@/components/LazySidebar';
+import styles from './KidsHome.module.css';
 
-export default function KidsHomeContent({ bookRecommendation, articlesData, categories }) {
-  console.log('KidsHomeContent articlesData:', JSON.stringify(articlesData, null, 2));
+export default function KidsHomeContent({ articlesData, categories, bookRecommendation }) {
+  const [activeCategory, setActiveCategory] = useState('all');
 
-  if (!articlesData || !articlesData.data || articlesData.data.length === 0) {
-    return <div>Nu există articole disponibile.</div>;
-  }
+  const articlesByCategory = articlesData.data.reduce((acc, article) => {
+    const category = article.attributes.category;
+    if (!acc[category]) {
+      acc[category] = [];
+    }
+    acc[category].push(article);
+    return acc;
+  }, {});
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-4xl font-bold mb-8">Lumea Magică a Copiilor</h1>
-      
-      <div className="flex flex-col md:flex-row">
-        <main className="w-full md:w-3/4 pr-0 md:pr-8">
-          <section className="mb-12">
-            <h2 className="text-2xl font-bold mb-4">Articole Recente</h2>
-            <ImageGallery
-  images={articlesData.data.map(article => ({
-    src: article.attributes.coverImage?.data?.attributes?.url || '/placeholder-image.jpg',
-    alt: article.attributes.title,
-    href: `/kids/${article.attributes.slug}`,
-    title: article.attributes.title,
-    excerpt: article.attributes.excerpt || ''
-  }))}
-/>
-          </section>
-          
-          <section>
-            <h2 className="text-2xl font-bold mb-4">Categorii</h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-              {categories.map((category, index) => (
-                <Link href={`/kids/category/${encodeURIComponent(category)}`} key={index} className="no-underline">
-                  <div className="bg-blue-100 p-4 rounded-lg text-center hover:bg-blue-200 transition-colors">
-                    {category}
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </section>
-        </main>
-        
-        <aside className="w-full md:w-1/4 mt-8 md:mt-0">
+    <div className={styles.kidsContainer}>
+      <header className={styles.kidsHeader}>
+        <div className={styles.heroOverlay}></div>
+        <div className={styles.heroContent}>
+          <h1 className={`${styles.kidsTitle} font-abeezee`}>Lumea Magică a Copiilor</h1>
+          <p className={`${styles.kidsDescription} font-abeezee`}>
+            Explorați împreună cu noi universul fascinant al copilăriei! Descoperiți povești încântătoare, 
+            cântece vesele și activități creative care vor stimula imaginația și vor aduce bucurie 
+            celor mici în fiecare zi.
+          </p>
+        </div>
+      </header>
+
+      <div className={styles.contentWrapper}>
+        <div className={styles.mainContent}>
+          <nav className={styles.categoryNav}>
+            <button 
+              className={`${styles.categoryButton} ${activeCategory === 'all' ? styles.active : ''} font-abeezee`}
+              onClick={() => setActiveCategory('all')}
+            >
+              Toate
+            </button>
+            {categories.map((category) => (
+              <button 
+                key={category}
+                className={`${styles.categoryButton} ${activeCategory === category ? styles.active : ''} font-abeezee`}
+                onClick={() => setActiveCategory(category)}
+              >
+                {category}
+              </button>
+            ))}
+          </nav>
+
+          <main>
+            {Object.entries(articlesByCategory).map(([category, articles], index) => (
+              <section key={category} className={`${styles.categorySection} ${index % 2 === 0 ? styles.evenSection : styles.oddSection}`}>
+                <h2 className={`${styles.sectionTitle} font-abeezee`}>{category}</h2>
+                <div className={styles.articlesGrid}>
+                  {articles.map((article) => (
+                    <div key={article.id} className={styles.articleCardWrapper}>
+                      <Link href={`/kids/${article.attributes.slug}`} className={styles.articleCard}>
+                        <Image
+                          src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${article.attributes.coverImage.data.attributes.url}`}
+                          alt={article.attributes.title}
+                          width={300}
+                          height={200}
+                          layout="responsive"
+                          className={styles.articleImage}
+                        />
+                        <h3 className={`${styles.articleTitle} font-abeezee`}>{article.attributes.title}</h3>
+                        {article.attributes.excerpt && (
+                          <p className={`${styles.articleExcerpt} font-abeezee`}>{article.attributes.excerpt}</p>
+                        )}
+                      </Link>
+                      <Link href={`/kids/${article.attributes.slug}`} className={`${styles.readMore} font-abeezee`}>
+                        Citește mai mult
+                      </Link>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            ))}
+          </main>
+        </div>
+
+        <aside className={styles.sidebar}>
           <LazySidebar 
             type="kids"
             categories={categories}

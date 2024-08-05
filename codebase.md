@@ -46,9 +46,7 @@
 # tailwind.config.ts
 
 ```ts
-import type { Config } from "tailwindcss";
-
-const config: Config = {
+module.exports = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -56,23 +54,31 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+      colors: {
+        'kids-primary': 'var(--kids-primary)',
+        'kids-secondary': 'var(--kids-secondary)',
+        'kids-background': 'var(--kids-background)',
+        'kids-text': 'var(--kids-text)',
+        'roma-primary': 'var(--roma-primary)',
+        'roma-secondary': 'var(--roma-secondary)',
+        'roma-background': 'var(--roma-background)',
+        'roma-text': 'var(--roma-text)',
       },
       fontFamily: {
-        'farro': ['Farro', 'sans-serif'],
-        'inter': ['Inter', 'serif'],
-        'besley': ['Besley', 'serif'],
-        'faustina': ['Faustina', 'serif'],
+        lora: ['var(--font-lora)', 'serif'],
+        chilanka: ['var(--font-chilanka)', 'cursive'],
+        'balsamiq-sans': ['var(--font-balsamiq-sans)', 'sans-serif'],
+        'patrick-hand': ['var(--font-patrick-hand)', 'cursive'],
+        trajan: ['Trajan Pro', 'serif'],
+      },
+      animation: {
+        'spin-slow': 'spin 20s linear infinite',
+        'spin-slower': 'spin 25s linear infinite',
       },
     },
   },
   plugins: [],
 };
-
-export default config;
 ```
 
 # renderContent(block))}
@@ -164,10 +170,11 @@ module.exports = {
   "dependencies": {
     "@tanstack/react-query": "^5.51.11",
     "axios": "^1.7.2",
+    "framer-motion": "^5.0.0",
     "next": "14.2.4",
     "next-mdx-remote": "^5.0.0",
-    "react": "^18",
-    "react-dom": "^18",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-markdown": "^9.0.1",
     "rehype-raw": "^7.0.0",
     "strapi": "^3.6.11"
@@ -313,6 +320,21 @@ export function getFullImageUrl(url: string): string {
   }
 ```
 
+# styles\variables.css
+
+```css
+:root {
+    --bp-cream: #F3E9D2;
+    --bp-sage: #C7D1C4;
+    --bp-sky: #A1C6EA;
+    --bp-duck-egg: #BBD1DC;
+    --bp-moss: #88AB75;
+    --bp-terracotta: #D5573B;
+    --bp-chocolate: #3A2E39;
+    --bp-lavender: #8E7DBE;
+  }
+```
+
 # styles\sidebar.css
 
 ```css
@@ -361,827 +383,6 @@ export function getFullImageUrl(url: string): string {
   }
 ```
 
-# styles\roma-home.css
-
-```css
-/* hero-section */
-
-.hero-section {
-    position: relative;
-    height: 60vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    text-align: center;
-  }
-  
-  .hero-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-  }
-  
-  .hero-content {
-    position: relative;
-    z-index: 1;
-  }
-  
-  .hero-title {
-    font-size: 3.5rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
-    color: #FFB74D;
-  }
-  
-  .hero-description {
-    font-size: 1.25rem;
-    max-width: 600px;
-    margin: 0 auto;
-  }
-  
-/* category-section */
-
-  .category-section {
-    padding: 1.5rem;
-  }
-  
-  .category-title {
-    font-size: 2rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
-    color: #8B0000;
-  }
-  
-  .category-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 1.5rem;
-  }
-  
-  .category-card {
-    display: block;
-    background-color: white;
-    border-radius: 0.5rem;
-    overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    text-decoration: none;
-    color: inherit;
-  }
-  
-  .category-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-  }
-  
-  .category-image {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-  }
-  
-  .category-card-content {
-    padding: 1rem;
-  }
-  
-  .category-card-title {
-    font-size: 1.25rem;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-    color: #8B0000;
-    transition: color 0.3s ease;
-  }
-  
-  .category-card:hover .category-card-title {
-    color: #6D071A;
-  }
-  
-  .category-card-description {
-    font-size: 0.9rem;
-    color: #4A4A4A;
-  }
-  
-  .view-all-button {
-    display: inline-block;
-    padding: 0.75rem 1.5rem;
-    background-color: #8B0000;
-    color: white;
-    text-decoration: none;
-    border-radius: 0.25rem;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-  }
-  
-  .view-all-button:hover {
-    background-color: #6D071A;
-  }
-  
-  /* Culori specifice pentru fiecare categorie */
-  .category-istoria { background-color: #FFB74D; }
-  .category-legende { background-color: #e3f6ff; }
-  .category-personalitati { background-color: #FFB74D; }
-  .category-arta { background-color: #e3f6ff; }
-  .category-religie { background-color: #FFB74D; }
-  .category-vatican { background-color: #e3f6ff; }
-  .category-monumente { background-color: #FFB74D; }
-  .category-biserici { background-color: #e3f6ff; }
-  .category-titani { background-color: #FFB74D; }
-  .category-muzee { background-color: #e3f6ff; }
-  .category-tururi { background-color: #FFE4E1; }
-  .category-librarie { background-color: #e3f6ff; }
-
-  /* Stiluri noi pentru sidebar */
-.sidebar-section {
-    padding: 1rem;
-    border-radius: 0.5rem;
-    margin-bottom: 1rem;
-  }
-  
-  .sidebar-book {
-    background-color: #dee5e7;
-  }
-  
-  .sidebar-categories {
-    background-color: #dee5e7;
-  }
-  
-  .sidebar-ads {
-    background-color: #dee5e7;
-  }
-  
-  .sidebar-useful {
-    background-color: #dee5e7;
-  }
-  
-  .sidebar-title {
-    font-size: 1.25rem;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-    color: #8B0000;
-  }
-  
-  .sidebar-link {
-    color: #8B0000;
-    text-decoration: none;
-  }
-  
-  .sidebar-link:hover {
-    text-decoration: underline;
-  }
-  
-  .buy-button {
-    display: block;
-    text-align: center;
-    background-color: #8B0000;
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 0.25rem;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
-  }
-  
-  .buy-button:hover {
-    background-color: #6D071A;
-  }
-
-  .view-all-button {
-    display: inline-block;
-    padding: 0.75rem 1.5rem;
-    background-color: #8B0000;
-    color: white;
-    text-decoration: none;
-    border-radius: 0.25rem;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-  }
-  
-  .view-all-button:hover {
-    background-color: #6D071A;
-  }
-```
-
-# styles\roma-category.css
-
-```css
-/* hero.css */
-
-.category-hero-section {
-  position: relative;
-  height: 40vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  text-align: center;
-}
-
-.category-hero-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-.category-hero-content {
-  position: relative;
-  z-index: 1;
-}
-
-.category-hero-title {
-  font-size: 3rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
-  color: #FFB74D;
-}
-
-.category-hero-description {
-  font-size: 1.25rem;
-  max-width: 600px;
-  margin: 0 auto;
-}
-  
-/* content.css */
-
-.category-content-wrapper {
-  background-color: #FFB74D;
-  padding: 2rem 0;
-}
-
-.category-article-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 1.5rem;
-}
-
-@media (min-width: 1024px) {
-  .category-article-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-.category-article-card {
-  display: block;
-  background-color: white;
-  border-radius: 0.5rem;
-  overflow: hidden;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  text-decoration: none;
-  color: inherit;
-}
-
-.category-article-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-}
-
-.category-article-image {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-}
-
-.category-article-content {
-  padding: 1rem;
-}
-
-.category-article-title {
-  font-size: 1.1rem;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-  color: #8B0000;
-}
-
-.category-article-card:hover .category-article-title {
-  color: #6D071A;
-}
-
-.category-article-description {
-  font-size: 0.9rem;
-  color: #4A4A4A;
-}
-
-   /* Stiluri noi chronological */
-
-   .chronological-navigation {
-    background-color: #FFE4B5;
-    padding: 0.5rem;
-    border-radius: 0.5rem;
-    font-size: 0.9rem;
-  }
-  
-  .chronological-navigation ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .chronological-navigation li {
-    margin-bottom: 0.25rem;
-  }
-  
-  .chronological-navigation a {
-    display: block;
-    padding: 0.25rem;
-    color: #8B0000;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
-  }
-  
-  .chronological-navigation a:hover,
-  .chronological-navigation a:focus {
-    background-color: #FFD700;
-    border-radius: 0.25rem;
-  }
-  
-
-   /* Stiluri noi pentru sidebar */
-.sidebar-section {
-    padding: 1rem;
-    border-radius: 0.5rem;
-    margin-bottom: 1rem;
-  }
-  
-  .sidebar-book {
-    background-color: #dee5e7;
-  }
-  
-  .sidebar-categories {
-    background-color: #dee5e7;
-  }
-  
-  .sidebar-ads {
-    background-color: #dee5e7;
-  }
-  
-  .sidebar-useful {
-    background-color: #dee5e7;
-  }
-  
-  .sidebar-title {
-    font-size: 1.25rem;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-    color: #8B0000;
-  }
-  
-  .sidebar-link {
-    color: #8B0000;
-    text-decoration: none;
-  }
-  
-  .sidebar-link:hover {
-    text-decoration: underline;
-  }
-  
-  .buy-button {
-    display: block;
-    text-align: center;
-    background-color: #8B0000;
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 0.25rem;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
-  }
-  
-  .buy-button:hover {
-    background-color: #6D071A;
-  }
-
-  @media (max-width: 1023px) {
-    .chronological-navigation,
-    .category-article-grid,
-    .sidebar-roma {
-      margin-bottom: 2rem;
-    }
-  }
-```
-
-# styles\roma-article.css
-
-```css
-.prose h1 {
-  font-size: 2.5rem;
-  color: #8B0000;
-  margin-bottom: 1rem;
-}
-
-.prose h2 {
-  font-size: 2rem;
-  color: #8B0000;
-  margin-top: 2rem;
-  margin-bottom: 1rem;
-}
-
-.prose h3 {
-  font-size: 1.75rem;
-  color: #8B0000;
-  margin-top: 1.5rem;
-  margin-bottom: 0.75rem;
-}
-
-.prose p {
-  margin-bottom: 1rem;
-}
-
-.prose strong {
-  font-weight: bold;
-}
-
-.prose em {
-  font-style: italic;
-}
-
-.prose ul, .prose ol {
-  margin-left: 1.5rem;
-  margin-bottom: 1rem;
-}
-
-.prose li {
-  margin-bottom: 0.5rem;
-}
-
-.article-quote {
-  font-family: 'Milonga', cursive;
-  font-size: 1.6rem;
-  color: #FFB74D;
-  background-color: #8B0000;
-  border-left: 4px solid #FFB74D;
-  padding: 1rem;
-  margin: 1.5rem 0;
-}
-
-.article-quote p {
-  margin-bottom: 0.5rem;
-}
-
-.article-quote footer {
-  font-size: 1.2rem;
-  font-style: italic;
-}
-```
-
-# styles\kids-home.css
-
-```css
-/* kids-home.css */
-
-/* Hero Section */
-.hero-section {
-    position: relative;
-    height: 60vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    text-align: center;
-  }
-  
-  .hero-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-  }
-  
-  .hero-content {
-    position: relative;
-    z-index: 1;
-  }
-  
-  .hero-title {
-    font-size: 3.5rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
-    color: #4a9eff;
-  }
-  
-  .hero-description {
-    font-size: 1.25rem;
-    max-width: 600px;
-    margin: 0 auto;
-  }
-  
-  /* Category Section */
-  .category-section {
-    padding: 1.5rem;
-    margin-bottom: 2rem;
-    border-radius: 0.5rem;
-  }
-  
-  .category-title {
-    font-size: 2rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
-    color: #4a9eff;
-  }
-  
-  .category-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 1.5rem;
-  }
-  
-  .category-card {
-    display: block;
-    background-color: white;
-    border-radius: 0.5rem;
-    overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    text-decoration: none;
-    color: inherit;
-  }
-  
-  .category-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-  }
-  
-  .category-image {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-  }
-  
-  .category-card-content {
-    padding: 1rem;
-  }
-  
-  .category-card-title {
-    font-size: 1.25rem;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-    color: #4a9eff;
-  }
-  
-  .category-card-description {
-    font-size: 0.9rem;
-    color: #4A4A4A;
-  }
-  
-  .view-all-button {
-    display: inline-block;
-    padding: 0.75rem 1.5rem;
-    background-color: #4a9eff;
-    color: white;
-    text-decoration: none;
-    border-radius: 0.25rem;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-  }
-  
-  .view-all-button:hover {
-    background-color: #3a7fcf;
-  }
-  
-  /* Culori specifice pentru fiecare categorie */
-  .category-cantece { background-color: #E6F3FF; }
-  .category-poezii { background-color: #FFE4E1; }
-  .category-povestiri { background-color: #E6F3FF; }
-  .category-fabule { background-color: #FFE4E1; }
-  .category-carti { background-color: #E6F3FF; }
-  .category-jocuri { background-color: #FFE4E1; }
-  .category-canale-youtube { background-color: #E6F3FF; }
-  
-  /* Responsive Design */
-  @media (max-width: 768px) {
-    .hero-title {
-      font-size: 2.5rem;
-    }
-  
-    .category-grid {
-      grid-template-columns: 1fr;
-    }
-  }
-```
-
-# styles\kids-category.css
-
-```css
-/* kids-category.css */
-
-.category-title {
-    font-size: 2.5rem;
-    color: #4a9eff;
-    margin-bottom: 1.5rem;
-    text-align: center;
-  }
-  
-  .category-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 1.5rem;
-  }
-  
-  .category-card {
-    background-color: white;
-    border-radius: 0.5rem;
-    overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .category-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-  }
-  
-  .category-card-image {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-  }
-  
-  .category-card-content {
-    padding: 1rem;
-  }
-  
-  .category-card-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: #4a9eff;
-    margin-bottom: 0.5rem;
-  }
-  
-  .alphabetical-navigation {
-    background-color: #C8DFC5;
-    padding: 1rem;
-    border-radius: 0.5rem;
-  }
-  
-  .alphabetical-navigation ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  
-  .alphabetical-navigation li {
-    text-align: center;
-  }
-  
-  .alphabetical-navigation a {
-    display: block;
-    padding: 0.5rem;
-    color: #6D4C3D;
-    text-decoration: none;
-    font-weight: 600;
-    border-radius: 0.25rem;
-    transition: background-color 0.3s ease;
-  }
-  
-  .alphabetical-navigation a:hover,
-  .alphabetical-navigation a:focus {
-    background-color: #A7C7A3;
-  }
-  
-  @media (max-width: 768px) {
-    .category-grid {
-      grid-template-columns: 1fr;
-    }
-    
-    .alphabetical-navigation ul {
-      flex-direction: row;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-  }
-```
-
-# styles\kids-article.css
-
-```css
-/* kids-article.css */
-.article-h1 {
-    font-size: 3rem;
-    color: #4a9eff;
-    margin-bottom: 1rem;
-  }
-  
-  .article-h2 {
-    font-size: 2.5rem;
-    color: #4a9eff;
-    margin-bottom: 1rem;
-  }
-  
-  .article-h3 {
-    font-size: 2rem;
-    color: #4a9eff;
-    margin-bottom: 1rem;
-  }
-  
-  .article-h4 {
-    font-size: 1.5rem;
-    color: #4a9eff;
-    margin-bottom: 1rem;
-  }
-  
-  .article-h5 {
-    font-size: 1.25rem;
-    color: #4a9eff;
-    margin-bottom: 1rem;
-  }
-  
-  .article-description {
-    font-size: 1.25rem;
-    color: #4A4A4A;
-    margin-top: 1rem;
-    margin-bottom: 2rem;
-  }
-  
-  .article-body {
-    font-family: 'Farro', serif;
-    font-size: 1.2rem;
-    color: #4A4A4A;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-  }
-  
-  .article-quote {
-    font-family: 'Comic Sans MS', cursive;
-    font-size: 1.4rem;
-    color: #4a9eff;
-    background-color: #cceeff;
-    border-left: 4px solid #4a9eff;
-    padding: 1rem;
-    margin: 1.5rem 0;
-  }
-  
-  
-  /* Stiluri noi pentru sidebar */
-.sidebar-section {
-    padding: 1rem;
-    border-radius: 0.5rem;
-    margin-bottom: 1rem;
-  }
-  
-  .sidebar-book {
-    background-color: #dee5e7;
-  }
-  
-  .sidebar-categories {
-    background-color: #dee5e7;
-  }
-  
-  .sidebar-ads {
-    background-color: #dee5e7;
-  }
-  
-  .sidebar-useful {
-    background-color: #dee5e7;
-  }
-  
-  .sidebar-title {
-    font-size: 1.25rem;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-    color: #8B0000;
-  }
-  
-  .sidebar-link {
-    color: #8B0000;
-    text-decoration: none;
-  }
-  
-  .sidebar-link:hover {
-    text-decoration: underline;
-  }
-  
-  .buy-button {
-    display: block;
-    text-align: center;
-    background-color: #8B0000;
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 0.25rem;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
-  }
-  
-  .buy-button:hover {
-    background-color: #6D071A;
-  }
-  
-  /* Reducerea spațiului dintre header și conținut */
-  .content-wrapper {
-    margin-top: -1rem; /* Ajustați această valoare pentru a reduce spațiul */
-  }
-  
-  /* Adăugați aici stilurile pentru elementele rotative din fundal */
-```
-
 # styles\globals.css
 
 ```css
@@ -1189,14 +390,51 @@ export function getFullImageUrl(url: string): string {
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* Paleta de culori pentru Kids */
+  --kids-primary: #4a9eff;
+  --kids-secondary: #FFB74D;
+  --kids-background: #E6F3FF;
+  --kids-text: #4A4A4A;
+  --bp-cream: #F3E9D2;
+  --bp-sage: #C7D1C4;
+  --bp-sky: #A1C6EA;
+  --bp-duck-egg: #BBD1DC;
+  --bp-moss: #88AB75;
+  --bp-terracotta: #D5573B;
+  --bp-chocolate: #3A2E39;
+  --bp-lavender: #8E7DBE;
+}
+
+  /* Fonturi */
+  --font-kids: 'Comic Sans MS', 'Chalkboard SE', 'Arial', sans-serif;
+}
+
 body {
-    font-family: 'Faustina', serif;
-  }
-  
-  .article-content {
-    font-family: 'Faustina', serif;
-    line-height: 1.6;
-    font-size: 1.1rem;
+  @apply bg-gray-100;
+  font-family: 'Faustina', serif;
+}
+
+/* Stiluri globale pentru headings */
+h1, h2, h3, h4, h5, h6 {
+  @apply font-bold mb-4;
+}
+
+/* Stiluri globale pentru linkuri */
+a {
+  @apply text-blue-600 hover:text-blue-800;
+}
+```
+
+# styles\fonts.css
+
+```css
+@font-face {
+    font-family: 'Trajan Pro';
+    src: url('/fonts/TrajanPro-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
   }
 ```
 
@@ -1364,7 +602,7 @@ export const getArticles = async (section: 'kids' | 'roma', page = 1, pageSize =
       sort: ['createdAt:desc'],
       filters,
       populate: ['coverImage'],
-      fields: ['title', 'slug', 'category', 'excerpt']
+      fields: ['title', 'slug', 'excerpt', 'category', 'author', 'date', 'keywords', 'tags']
     }, 10); // Revalidare la fiecare 10 secunde
     
     return response;
@@ -1384,11 +622,11 @@ export const getArticle = async (slug: string) => {
           populate: '*'
         },
         seo: {
-          populate: ['SharedImage']
+          populate: '*'
         }
       },
-      fields: ['title', 'slug', 'excerpt', 'category', 'date', 'updatedAt']
-    }, 30); // Revalidare la fiecare 5 minute
+      fields: ['title', 'slug', 'excerpt', 'category', 'author', 'date', 'keywords']
+    });
     
     if (response.data && response.data.length > 0) {
       return response.data[0];
@@ -1508,15 +746,12 @@ export function useAppContext() {
 # components\Sidebar.tsx
 
 ```tsx
+// components/Sidebar.tsx
+
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import dynamic from 'next/dynamic';
-
-const DynamicClientSidebarContent = dynamic(() => import('./ClientSidebarContent'), {
-  loading: () => <p>Loading interactive content...</p>,
-  ssr: false
-});
+import styles from './Sidebar.module.css';
 
 interface SidebarProps {
   type: 'kids' | 'roma';
@@ -1531,35 +766,34 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ type, categories = [], bookRecommendation }) => {
   return (
-    <div>
-      {/* Recomandare carte */}
+    <div className={styles.sidebar}>
       {bookRecommendation && (
-        <div className="sidebar-section sidebar-book">
-          <div className="bg-white p-4 rounded-lg shadow">
+        <div className={styles.sidebarSection}>
+          <h3 className={styles.sectionTitle}>Cartea Recomandată</h3>
+          <div className={styles.bookContent}>
             <Image
-              src={bookRecommendation.imageUrl || '/placeholder-book.jpg'}
-              alt={bookRecommendation.title || 'Recommended Book'}
-              width={250}
-              height={250}
-              className="mx-auto mb-2"
+              src={bookRecommendation.imageUrl}
+              alt={bookRecommendation.title}
+              width={150}
+              height={200}
+              className={styles.bookImage}
             />
-            <h3 className="text-lg font-semibold mb-1">{bookRecommendation.title}</h3>
-            <p className="text-gray-600 mb-2">{bookRecommendation.price} RON</p>
-            <Link href={bookRecommendation.link} className="buy-button">
+            <p className={styles.bookTitle}>{bookRecommendation.title}</p>
+            <p className={styles.bookPrice}>{bookRecommendation.price} RON</p>
+            <Link href={bookRecommendation.link} className={styles.buyButton}>
               Cumpără acum
             </Link>
           </div>
         </div>
       )}
       
-      {/* Categorii */}
       {categories.length > 0 && (
-        <div className="sidebar-section sidebar-categories">
-          <h2 className="sidebar-title">Categorii</h2>
-          <ul>
+        <div className={styles.sidebarSection}>
+          <h3 className={styles.sectionTitle}>Categorii</h3>
+          <ul className={styles.categoryList}>
             {categories.map((category, index) => (
-              <li key={index} className="mb-1">
-                <Link href={`/${type}/category/${encodeURIComponent(category)}`} className="sidebar-link">
+              <li key={index} className={styles.categoryItem}>
+                <Link href={`/${type}/category/${encodeURIComponent(category)}`} className={styles.categoryLink}>
                   {category}
                 </Link>
               </li>
@@ -1568,13 +802,100 @@ const Sidebar: React.FC<SidebarProps> = ({ type, categories = [], bookRecommenda
         </div>
       )}
 
-      {/* Conținut dinamic încărcat pe client */}
-      <DynamicClientSidebarContent type={type} />
+      <div className={styles.sidebarSection}>
+        <h3 className={styles.sectionTitle}>Publicitate</h3>
+        <p>Spațiu rezervat pentru AdSense</p>
+      </div>
+
+      <div className={styles.sidebarSection}>
+        <h3 className={styles.sectionTitle}>Resurse utile</h3>
+        <ul className={styles.resourceList}>
+          <li><Link href="#" className={styles.resourceLink}>Activități pentru copii</Link></li>
+          <li><Link href="#" className={styles.resourceLink}>Recomandări de lectură</Link></li>
+          <li><Link href="#" className={styles.resourceLink}>Jocuri educative online</Link></li>
+        </ul>
+      </div>
     </div>
   );
 };
 
 export default Sidebar;
+```
+
+# components\Sidebar.module.css
+
+```css
+/* components/Sidebar.module.css */
+
+.sidebar {
+  background-color: #f0f0f0;
+  padding: 15px;
+  font-family: Arial, sans-serif;
+}
+
+.sidebarSection {
+  background-color: #ffffff;
+  margin-bottom: 15px;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.sectionTitle {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.bookContent {
+  text-align: center;
+}
+
+.bookImage {
+  margin-bottom: 10px;
+}
+
+.bookTitle {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.bookPrice {
+  font-size: 16px;
+  font-weight: bold;
+  color: #000;
+  margin-bottom: 10px;
+}
+
+.buyButton {
+  display: inline-block;
+  background-color: #8B0000;
+  color: #ffffff;
+  padding: 8px 15px;
+  text-decoration: none;
+  border-radius: 3px;
+  font-size: 14px;
+}
+
+.categoryList, .resourceList {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.categoryItem, .resourceList li {
+  margin-bottom: 5px;
+}
+
+.categoryLink, .resourceLink {
+  color: #0000FF;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.categoryLink:hover, .resourceLink:hover {
+  text-decoration: underline;
+}
 ```
 
 # components\SEO.tsx
@@ -1610,15 +931,6 @@ export function generateMetadata({
   language,
   url
 }: SEOProps): Metadata {
-  const ogImage = sharedImage && sharedImage.media && sharedImage.media.url
-    ? [
-        {
-          url: sharedImage.media.url,
-          alt: sharedImage.alt || metaTitle,
-        }
-      ]
-    : undefined;
-
   return {
     title: metaTitle,
     description: metaDescription,
@@ -1627,7 +939,12 @@ export function generateMetadata({
     openGraph: {
       title: metaTitle,
       description: metaDescription,
-      images: ogImage,
+      images: sharedImage && sharedImage.media ? [
+        {
+          url: sharedImage.media.url,
+          alt: sharedImage.alt || metaTitle,
+        }
+      ] : undefined,
       type: 'article',
       url: url,
     },
@@ -1635,7 +952,7 @@ export function generateMetadata({
       card: 'summary_large_image',
       title: metaTitle,
       description: metaDescription,
-      images: ogImage ? [ogImage[0].url] : undefined,
+      images: sharedImage && sharedImage.media ? [sharedImage.media.url] : undefined,
     },
     ...(articleDate && {
       'article:published_time': articleDate
@@ -1649,13 +966,6 @@ export function generateMetadata({
     },
   };
 }
-
-const SEO: React.FC<SEOProps> = (props) => {
-  // Acest component nu mai trebuie să returneze nimic vizibil
-  return null;
-};
-
-export default SEO;
 ```
 
 # components\SectionHeader.tsx
@@ -1698,43 +1008,38 @@ export default SectionHeader;
 
 ```tsx
 import React from 'react';
+import styles from './RichTextContent.module.css';
 
 const RichTextContent = ({ content }) => {
-  if (typeof content === 'string') {
-    return <p>{content}</p>;
-  }
-
   const renderNode = (node, index) => {
+    if (typeof node === 'string') {
+      return <span key={index}>{node}</span>;
+    }
+
     switch (node.type) {
       case 'paragraph':
-        return <p key={index}>{node.children.map((child, i) => renderNode(child, `${index}-${i}`))}</p>;
+        return <p key={index} className={styles.paragraph}>{node.children.map((child, childIndex) => renderNode(child, `${index}-${childIndex}`))}</p>;
       case 'text':
         let text = node.text;
-        if (node.bold) text = <strong key={index}>{text}</strong>;
-        if (node.italic) text = <em key={index}>{text}</em>;
-        if (node.underline) text = <u key={index}>{text}</u>;
+        if (node.bold) text = <strong key={index} className={styles.bold}>{text}</strong>;
+        if (node.italic) text = <em key={index} className={styles.italic}>{text}</em>;
+        if (node.underline) text = <u key={index} className={styles.underline}>{text}</u>;
         return text;
-      case 'heading':
-        const HeadingTag = `h${node.level}` as keyof JSX.IntrinsicElements;
-        return <HeadingTag key={index}>{node.children.map((child, i) => renderNode(child, `${index}-${i}`))}</HeadingTag>;
-      case 'list':
-        const ListTag = node.format === 'ordered' ? 'ol' : 'ul';
-        return (
-          <ListTag key={index}>
-            {node.children.map((item, i) => (
-              <li key={`${index}-${i}`}>{item.children.map((child, j) => renderNode(child, `${index}-${i}-${j}`))}</li>
-            ))}
-          </ListTag>
-        );
       default:
         return null;
     }
   };
 
-  return <>{content.map((node, index) => renderNode(node, index))}</>;
+  return <div className={styles.richText}>{content.map((node, index) => renderNode(node, index))}</div>;
 };
 
 export default RichTextContent;
+```
+
+# components\RichTextContent.module.css
+
+```css
+
 ```
 
 # components\ResponsiveImage.tsx
@@ -1797,23 +1102,22 @@ import Image from 'next/image';
 interface OptimizedImageProps {
   src: string;
   alt: string;
-  width?: number;
-  height?: number;
+  width: number;
+  height: number;
+  className?: string;
 }
 
-export default function OptimizedImage({ src, alt, width, height }: OptimizedImageProps) {
+export default function OptimizedImage({ src, alt, width, height, className }: OptimizedImageProps) {
   const imageSrc = src.startsWith('http') ? src : `${process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337'}${src}`;
 
-  console.log('OptimizedImage src:', imageSrc);
-
   return (
-    <div className="relative w-full pb-[56.25%]"> {/* 16:9 Aspect Ratio */}
+    <div className={`relative ${className || ''}`}>
       <Image
         src={imageSrc}
         alt={alt}
-        fill
-        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-        className="absolute top-0 left-0 w-full h-full object-cover"
+        width={width}
+        height={height}
+        style={{ objectFit: 'cover', width: '100%', height: 'auto' }}
       />
     </div>
   );
@@ -1823,12 +1127,20 @@ export default function OptimizedImage({ src, alt, width, height }: OptimizedIma
 # components\LazySidebar.tsx
 
 ```tsx
-import Sidebar from './Sidebar';
+// components/LazySidebar.tsx
+
+import React from 'react';
+import dynamic from 'next/dynamic';
+
+const DynamicSidebar = dynamic(() => import('./Sidebar'), {
+  loading: () => <p>Se încarcă...</p>,
+  ssr: false
+});
 
 interface LazySidebarProps {
   type: 'kids' | 'roma';
-  categories: string[];
-  bookRecommendation: {
+  categories?: string[];
+  bookRecommendation?: {
     title: string;
     imageUrl: string;
     price: number;
@@ -1837,10 +1149,70 @@ interface LazySidebarProps {
 }
 
 const LazySidebar: React.FC<LazySidebarProps> = (props) => {
-  return <Sidebar {...props} />;
+  return <DynamicSidebar {...props} />;
 };
 
 export default LazySidebar;
+```
+
+# components\KidsArticleLayout.tsx
+
+```tsx
+import React from 'react';
+import Image from 'next/image';
+import ArticleContent from './ArticleContent';
+import Sidebar from './Sidebar';
+
+interface KidsArticleLayoutProps {
+  article: any;
+  categories: string[];
+  bookRecommendation: any;
+}
+
+const KidsArticleLayout: React.FC<KidsArticleLayoutProps> = ({ article, categories, bookRecommendation }) => {
+  const { title, excerpt, author, coverImage, content } = article.attributes;
+
+  return (
+    <div className={styles.container}>
+      <BackgroundAnimations />
+      <div className={styles.heroSection}>
+        {coverImage && (
+          <Image
+            src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${coverImage.data.attributes.url}`}
+            alt={title}
+            layout="fill"
+            objectFit="cover"
+            className={styles.heroImage}
+          />
+        )}
+        <div className={styles.heroContent}>
+          <h1 className={styles.title}>{title}</h1>
+          {excerpt && <p className={styles.excerpt}>{excerpt}</p>}
+          {author && <p className={styles.author}>By {author}</p>}
+        </div>
+      </div>
+      
+      <div className={styles.contentWrapper}>
+        <main className={styles.mainContent}>
+          <ArticleContent content={content} />
+        </main>
+        <aside className={styles.sidebar}>
+          <Sidebar
+            type="kids"
+            categories={categories}
+            bookRecommendation={bookRecommendation}
+          />
+        </aside>
+      </div>
+      
+      <footer className={styles.footer}>
+        © 2024 Mambu - Secțiunea pentru Copii
+      </footer>
+    </div>
+  );
+};
+
+export default KidsArticleLayout;
 ```
 
 # components\ImageGallery.tsx
@@ -1848,7 +1220,7 @@ export default LazySidebar;
 ```tsx
 import React from 'react';
 import Link from 'next/link';
-import OptimizedImage from './OptimizedImage';
+import Image from 'next/image';
 
 interface GalleryImage {
   src: string;
@@ -1856,6 +1228,8 @@ interface GalleryImage {
   href: string;
   title: string;
   excerpt: string;
+  width: number;
+  height: number;
 }
 
 interface ImageGalleryProps {
@@ -1863,8 +1237,6 @@ interface ImageGalleryProps {
 }
 
 export default function ImageGallery({ images }: ImageGalleryProps) {
-  console.log('ImageGallery images:', images);
-
   if (!images || images.length === 0) {
     return <div>Nu există imagini disponibile.</div>;
   }
@@ -1874,9 +1246,13 @@ export default function ImageGallery({ images }: ImageGalleryProps) {
       {images.map((image, index) => (
         <Link href={image.href} key={index} className="no-underline">
           <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 h-full">
-            <OptimizedImage
+            <Image
               src={image.src}
               alt={image.alt}
+              width={image.width}
+              height={image.height}
+              layout="responsive"
+              objectFit="cover"
             />
             <div className="p-4">
               <h3 className="text-lg font-semibold mb-2 text-gray-800">{image.title}</h3>
@@ -1930,25 +1306,48 @@ export default Hero;
 # components\ContentBlock.tsx
 
 ```tsx
+// components/ContentBlock.tsx
+
 import React from 'react';
+import Image from 'next/image';
 import RichTextContent from './RichTextContent';
 
-const ContentBlock = ({ block, OptimizedImage }) => {
+const ContentBlock = ({ block, styles }) => {
+  console.log('ContentBlock received:', block); // Pentru debugging
+
   switch (block.__component) {
     case 'content.text-block':
-      return <RichTextContent content={block.content} />;
+      return (
+        <div className={styles.articleParagraph}>
+          {Array.isArray(block.content) ? (
+            block.content.map((item, index) => {
+              if (item.type === 'paragraph') {
+                return <p key={index}>{item.children.map(child => child.text).join('')}</p>;
+              } else if (item.type === 'heading') {
+                const HeadingTag = `h${item.level}` as keyof JSX.IntrinsicElements;
+                return <HeadingTag key={index} className={styles[`heading${item.level}`]}>{item.children.map(child => child.text).join('')}</HeadingTag>;
+              }
+              return null;
+            })
+          ) : (
+            <RichTextContent content={block.content} />
+          )}
+        </div>
+      );
 
     case 'image.image-block':
       if (block.image?.data) {
+        const imageData = block.image.data.attributes;
         return (
-          <figure className="my-4">
-            <OptimizedImage
-              src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${block.image.data.attributes.url}`}
-              alt={block.caption || 'Image'}
-              width={600}
-              height={400}
+          <figure className={styles.articleFigure}>
+            <Image
+              src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${imageData.url}`}
+              alt={block.caption || imageData.alternativeText || ''}
+              width={imageData.width}
+              height={imageData.height}
+              layout="responsive"
+              className={styles.articleImage}
             />
-            {block.caption && <figcaption className="text-center mt-2">{block.caption}</figcaption>}
           </figure>
         );
       }
@@ -1956,22 +1355,21 @@ const ContentBlock = ({ block, OptimizedImage }) => {
 
     case 'quote.citate':
       return (
-        <blockquote className="article-quote">
+        <blockquote className={styles.articleQuote}>
           <p>{block.text}</p>
-          {block.autor && <footer>— {block.autor}</footer>}
+          {block.autor && <footer className={styles.quoteAuthor}>— {block.autor}</footer>}
         </blockquote>
       );
 
     case 'content.refrain':
       return (
-        <div className="bg-gray-100 p-4 my-4 rounded">
-          <h3 className="font-bold mb-2">Refren:</h3>
-          <RichTextContent content={block.content} />
+        <div className={`${styles.articleParagraph} ${styles.refrain}`}>
+          {block.text}
         </div>
       );
 
     default:
-      console.log('Unknown component:', block.__component);
+      console.warn('Unknown block type:', block.__component);
       return null;
   }
 };
@@ -2256,29 +1654,67 @@ export default function ArticleImage({ image }: ArticleImageProps) {
 
 ```tsx
 import React from 'react';
-import Sidebar from '@/components/Sidebar';
+import ArticleImage from './ArticleImage';
 
-interface ArticleContentProps {
-  article: any; // Tipul exact al articolului
-  categories: string[];
-  bookRecommendation: any; // Tipul exact al recomandării de carte
-}
+const ArticleContent = ({ content }) => {
+  const renderTextContent = (textContent) => {
+    return textContent.map((item, index) => {
+      switch (item.type) {
+        case 'paragraph':
+          return <p key={index}>{item.children.map(child => child.text).join('')}</p>;
+        case 'heading':
+          const HeadingTag = `h${item.level}` as keyof JSX.IntrinsicElements;
+          return <HeadingTag key={index}>{item.children.map(child => child.text).join('')}</HeadingTag>;
+        default:
+          return null;
+      }
+    });
+  };
 
-const ArticleContent: React.FC<ArticleContentProps> = ({ article, categories, bookRecommendation }) => {
+  const renderContentBlock = (block, index) => {
+    switch (block.__component) {
+      case 'content.text-block':
+        return (
+          <div key={index} className={styles.textBlock}>
+            {renderTextContent(block.content)}
+          </div>
+        );
+      case 'image.image-block':
+        if (block.image?.data?.attributes) {
+          const { url, width, height } = block.image.data.attributes;
+          return (
+            <div key={index} className={styles.imageWrapper}>
+              <ArticleImage
+                image={{
+                  url: `${process.env.NEXT_PUBLIC_STRAPI_URL}${url}`,
+                  width: width || 300, // Folosim o valoare implicită dacă width nu este disponibil
+                  height: height || 300, // Folosim o valoare implicită dacă height nu este disponibil
+                  alternativeText: block.image.data.attributes.alternativeText || '',
+                }}
+                caption={block.caption}
+              />
+            </div>
+          );
+        }
+        return null;
+      default:
+        return null;
+    }
+  };
+
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="flex flex-col lg:flex-row">
-        <main className="w-full lg:w-2/3 lg:pr-8">
-          {/* Conținutul articolului */}
-        </main>
-        <aside className="w-full lg:w-1/3 mt-8 lg:mt-0">
-          <Sidebar 
-            type={article.attributes.section} 
-            categories={categories} 
-            bookRecommendation={bookRecommendation}
-          />
-        </aside>
-      </div>
+    <div className={styles.articleContent}>
+      {content.reduce((acc, block, index) => {
+        if (index % 2 === 0) {
+          acc.push(
+            <div key={index} className={`${styles.contentRow} ${index % 4 === 0 ? styles.imageLeft : styles.imageRight}`}>
+              {renderContentBlock(content[index], index)}
+              {content[index + 1] && renderContentBlock(content[index + 1], index + 1)}
+            </div>
+          );
+        }
+        return acc;
+      }, [])}
     </div>
   );
 };
@@ -2418,16 +1854,22 @@ export default function NotFound() {
 ```tsx
 import React from 'react';
 import './globals.css'
-import { Inter, Farro, Faustina, Besley } from 'next/font/google'
+import '@/styles/variables.css'
+import { Lora, Chilanka, Balsamiq_Sans as BalsamiqSans, Patrick_Hand as PatrickHand } from 'next/font/google'
 import Link from 'next/link'
 import { AppProvider } from '@/context/AppContext'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClient } from '@/lib/queryClient'
+import '../styles/fonts.css'
 
-const inter = Inter({ subsets: ['latin'] })
-const farro = Farro({ subsets: ['latin'], weight: ['400', '700'] })
-const faustina = Faustina({ subsets: ['latin'] })
-const besley = Besley({ subsets: ['latin'] });
+const lora = Lora({ subsets: ['latin'], variable: '--font-lora' })
+const chilanka = Chilanka({ weight: '400', subsets: ['latin'], variable: '--font-chilanka' })
+const balsamiqSans = BalsamiqSans({ weight: '400', subsets: ['latin'], variable: '--font-balsamiq-sans' })
+const patrickHand = PatrickHand({ weight: '400', subsets: ['latin'], variable: '--font-patrick-hand' })
+
+
+// aici se defineste fontul pentru intreaga aplicatie
+// pentru sectiuni specifice se creaza layout-uri separate
 
 export default function RootLayout({
   children,
@@ -2435,17 +1877,17 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className={farro.className}>
+    <html lang="en" className={`${lora.variable} ${chilanka.variable} ${balsamiqSans.variable} ${patrickHand.variable}`}>
+      <body>
         <QueryClientProvider client={queryClient}>
           <AppProvider>
-            <header className="bg-blue-500 text-white p-4">
+            <header className="bg-white-500 text-white p-4">
               <div className="container mx-auto flex justify-between items-center">
                 <Link href="/" className="text-2xl font-bold">Mambu</Link>
                 <nav>
                   <ul className="flex space-x-4">
-                    <li><Link href="/kids" className="hover:underline">Povești pentru Copii</Link></li>
-                    <li><Link href="/roma" className="hover:underline">Descoperă Roma</Link></li>
+                    <li><Link href="/kids" className="hover:underline">KIDS</Link></li>
+                    <li><Link href="/roma" className="hover:underline">ROMA</Link></li>
                   </ul>
                 </nav>
                 <Link href="/cart" className="hover:underline">Coș (0)</Link>
@@ -2470,8 +1912,37 @@ export default function RootLayout({
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* Paleta de culori pentru Kids */
+  --kids-primary: #4a9eff;
+  --kids-secondary: #FFB74D;
+  --kids-background: #E6F3FF;
+  --kids-text: #4A4A4A;
+
+  /* Paleta de culori pentru Roma */
+  --roma-primary: #8B0000;
+  --roma-secondary: #FFB74D;
+  --roma-background: #FFF5E6;
+  --roma-text: #333333;
+
+  /* Fonturi */
+  --font-kids: 'Comic Sans MS', 'Chalkboard SE', 'Arial', sans-serif;
+  --font-roma: 'Times New Roman', 'Garamond', serif;
+}
+
 body {
   @apply bg-gray-100;
+  font-family: 'Faustina', serif;
+}
+
+/* Stiluri globale pentru headings */
+h1, h2, h3, h4, h5, h6 {
+  @apply font-bold mb-4;
+}
+
+/* Stiluri globale pentru linkuri */
+a {
+  @apply text-blue-600 hover:text-blue-800;
 }
 ```
 
@@ -2526,6 +1997,10 @@ export default function ClientAppProvider({ children }: { children: React.ReactN
 }
 ```
 
+# public\images\subtle-leaves-pattern.png
+
+This is a binary file of the type: Image
+
 # public\images\Screenshot 2024-07-18 164936.jpg
 
 This is a binary file of the type: Image
@@ -2554,9 +2029,21 @@ This is a binary file of the type: Image
 
 This is a binary file of the type: Image
 
+# public\images\leaf-decoration.png
+
+This is a binary file of the type: Image
+
 # public\images\kids-book.png
 
 This is a binary file of the type: Image
+
+# public\images\flower-decoration.png
+
+This is a binary file of the type: Image
+
+# public\fonts\TrajanPro-Regular.woff2
+
+This is a binary file of the type: Binary
 
 # components\layout\Layout.tsx
 
@@ -2615,87 +2102,125 @@ export default function Footer() {
 # app\roma\RomaHomeContent.tsx
 
 ```tsx
-'use client'
-
 import React from 'react';
 import Link from 'next/link';
-import { useArticles } from '@/hooks/useArticles';
-import { useCategories } from '@/hooks/useCategories';
-import ArticlePreview from '@/components/ArticlePreview';
-import CategoryList from '@/components/CategoryList';
+import OptimizedImage from '@/components/OptimizedImage';
 import LazySidebar from '@/components/LazySidebar';
+import styles from './roma-home.module.css';
 
-export default function RomaHomeContent({ bookRecommendation }) {
-  const { data: articlesData, isLoading: isArticlesLoading } = useArticles('roma', 1, 6);
-  const { data: categories, isLoading: isCategoriesLoading } = useCategories('roma');
-
-  if (isArticlesLoading || isCategoriesLoading) {
-    return <div>Loading...</div>;
-  }
-
+export default function RomaHomeContent({ bookRecommendation, articlesData, categories }) {
   return (
-    <div>
-      
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex flex-col lg:flex-row">
-          <main className="w-full lg:w-3/4 lg:pr-8">
-            <CategoryList categories={categories} section="roma" />
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {articlesData?.data.map((article) => (
-                <ArticlePreview
-                  key={article.id}
-                  title={article.attributes.title}
-                  excerpt={article.attributes.excerpt || ''}
-                  slug={article.attributes.slug}
-                  imageUrl={article.attributes.coverImage?.data?.attributes?.url || '/placeholder-image.jpg'}
-                  section="roma"
-                />
+    <div className="container mx-auto px-4 py-8">
+      <div className="flex flex-col lg:flex-row">
+        <main className="w-full lg:w-3/4 lg:pr-8">
+          <section className="mb-12">
+            <h2 className={styles.romaCardTitle}>Articole Recente</h2>
+            <div className={styles.romaGrid}>
+              {articlesData.data.map((article) => (
+                <Link href={`/roma/${article.attributes.slug}`} key={article.id} className="no-underline">
+                  <div className={styles.romaCard}>
+                    <OptimizedImage
+                      src={article.attributes.coverImage?.data?.attributes?.url || '/placeholder-image.jpg'}
+                      alt={article.attributes.title}
+                      width={400}
+                      height={300}
+                    />
+                    <h3 className={styles.romaCardTitle}>{article.attributes.title}</h3>
+                    <p className={styles.romaCardExcerpt}>{article.attributes.excerpt}</p>
+                  </div>
+                </Link>
               ))}
             </div>
-            <div className="mt-8 text-center">
-              <Link href="/roma/all" className="inline-block px-6 py-3 bg-red-800 text-white rounded-full hover:bg-red-700 transition-colors">
-                Explorează toate articolele despre Roma
-              </Link>
-            </div>
-          </main>
+          </section>
           
-          <aside className="w-full lg:w-1/4 mt-8 lg:mt-0">
-            <LazySidebar 
-              type="roma"
-              categories={categories}
-              bookRecommendation={bookRecommendation}
-            />
-          </aside>
-        </div>
+          <section>
+            <h2 className={styles.romaCardTitle}>Categorii</h2>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              {categories.map((category, index) => (
+                <Link href={`/roma/category/${encodeURIComponent(category)}`} key={index} className="no-underline">
+                  <div className={`${styles.romaCard} text-center`}>
+                    {category}
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </section>
+        </main>
+        
+        <aside className="w-full lg:w-1/4 mt-8 lg:mt-0">
+          <LazySidebar 
+            type="roma"
+            categories={categories}
+            bookRecommendation={bookRecommendation}
+          />
+        </aside>
       </div>
     </div>
   );
 }
 ```
 
+# app\roma\roma-home.module.css
+
+```css
+/* app/roma/roma-home.module.css */
+.romaContainer {
+  @apply bg-roma-background text-roma-text p-6;
+}
+
+.romaHeading {
+  @apply text-4xl font-trajan text-roma-primary mb-6 text-center;
+}
+
+.romaButton {
+  @apply bg-roma-primary text-white font-bold py-2 px-4 rounded hover:bg-red-800 transition-colors;
+}
+
+.romaCard {
+  @apply bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow;
+}
+
+.romaCardTitle {
+  @apply text-xl font-trajan text-roma-primary mb-2;
+}
+
+.romaCardExcerpt {
+  @apply text-sm font-lora text-roma-text;
+}
+
+.romaGrid {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6;
+}
+
+.romaSidebar {
+  @apply bg-white rounded-lg shadow-md p-4;
+}
+
+```
+
 # app\roma\page.tsx
 
 ```tsx
-import { getArticles, getCategories, getBookRecommendation } from '@/lib/api'
-import RomaHomeContent from './RomaHomeContent'
+import React from 'react';
+import { getBookRecommendation, getArticles, getCategories } from '@/lib/api';
+import RomaHomeContent from './RomaHomeContent';
+import styles from './roma-home.module.css';
 
-export default async function RomaPage() {
-  try {
-    const articlesData = await getArticles('roma', 1, 6)
-    const categories = await getCategories('roma')
-    const bookRecommendation = await getBookRecommendation('roma')
+export default async function RomaHomePage() {
+  const bookRecommendation = await getBookRecommendation('roma');
+  const articlesData = await getArticles('roma', 1, 6);
+  const categories = await getCategories('roma');
 
-    return (
+  return (
+    <div className={styles.romaContainer}>
+      <h1 className={styles.romaHeading}>Descoperă Frumusețea Romei</h1>
       <RomaHomeContent
+        bookRecommendation={bookRecommendation}
         articlesData={articlesData}
         categories={categories}
-        bookRecommendation={bookRecommendation}
       />
-    )
-  } catch (error) {
-    // Această eroare va fi prinsă de fișierul error.tsx cel mai apropiat
-    throw new Error('Nu s-au putut încărca datele pentru pagina copiilor')
-  }
+    </div>
+  );
 }
 ```
 
@@ -2703,7 +2228,6 @@ export default async function RomaPage() {
 
 ```tsx
 import React from 'react';
-import Link from 'next/link';
 
 export default function RomaLayout({
   children,
@@ -2711,14 +2235,7 @@ export default function RomaLayout({
   children: React.ReactNode
 }) {
   return (
-    <div className="roma-layout">
-      <nav className="bg-red-100 p-4">
-        <ul className="flex space-x-4">
-          <li><Link href="/roma/history" className="text-red-600 hover:underline">Istorie</Link></li>
-          <li><Link href="/roma/attractions" className="text-red-600 hover:underline">Atracții</Link></li>
-          <li><Link href="/roma/cuisine" className="text-red-600 hover:underline">Gastronomie</Link></li>
-        </ul>
-      </nav>
+    <div className="roma-layout font-lora">
       <div className="roma-content p-4">
         {children}
       </div>
@@ -2798,22 +2315,35 @@ export async function POST(request: NextRequest) {
 
 ```tsx
 import React from 'react';
-import { getBookRecommendation, getArticles, getCategories } from '@/lib/api';
+import { Metadata } from 'next';
+import { getArticles, getCategories, getBookRecommendation } from '@/lib/api';
 import KidsHomeContent from './KidsHomeContent';
+import { generateMetadata as generateSEOMetadata } from '@/components/SEO';
+import styles from './KidsHome.module.css';
+
+export async function generateMetadata(): Promise<Metadata> {
+  return generateSEOMetadata({
+    metaTitle: 'Lumea Magică a Copiilor',
+    metaDescription: 'Explorați împreună cu noi universul fascinant al copilăriei! Descoperiți povești încântătoare, cântece vesele și activități creative.',
+    keywords: 'copii, povești, cântece, activități, educație, divertisment',
+    language: 'ro',
+    url: 'https://www.example.com/kids',
+  });
+}
 
 export default async function KidsHomePage() {
-  const bookRecommendation = await getBookRecommendation('kids');
-  const articlesData = await getArticles('kids', 1, 6);
+  const articlesData = await getArticles('kids', 1, 100);
   const categories = await getCategories('kids');
-
-  console.log('KidsHomePage articlesData:', JSON.stringify(articlesData, null, 2));
+  const bookRecommendation = await getBookRecommendation('kids');
 
   return (
-    <KidsHomeContent
-      bookRecommendation={bookRecommendation}
-      articlesData={articlesData}
-      categories={categories}
-    />
+    <div className={styles.kidsContainer}>
+      <KidsHomeContent
+        articlesData={articlesData}
+        categories={categories}
+        bookRecommendation={bookRecommendation}
+      />
+    </div>
   );
 }
 ```
@@ -2840,30 +2370,17 @@ export default function NotFound() {
 
 ```tsx
 import React from 'react';
-import Link from 'next/link';
 
 export default function KidsLayout({
   children,
-  params,
 }: {
-  children: React.ReactNode,
-  params: { section?: string }
+  children: React.ReactNode
 }) {
-  const sectionTitle = params.section 
-    ? `Secțiunea ${params.section.charAt(0).toUpperCase() + params.section.slice(1)}` 
-    : 'Bine ați venit în lumea copiilor';
-
   return (
-    <div className="kids-layout">
-      <h1 className="text-3xl font-bold mb-4">{sectionTitle}</h1>
-      <nav className="bg-blue-100 p-4">
-        <ul className="flex space-x-4">
-          <li><Link href="/kids/stories" className="text-blue-600 hover:underline">Povești</Link></li>
-          <li><Link href="/kids/songs" className="text-blue-600 hover:underline">Cântece</Link></li>
-          <li><Link href="/kids/activities" className="text-blue-600 hover:underline">Activități</Link></li>
-        </ul>
-      </nav>
-      <div className="kids-content p-4">
+    <div className="kids-layout font-balsamiq-sans">
+      {/* Aici puteți adăuga elemente comune pentru toate paginile din secțiunea kids, 
+          dar fără meniurile redundante */}
+      <div className="kids-content">
         {children}
       </div>
     </div>
@@ -2874,52 +2391,76 @@ export default function KidsLayout({
 # app\kids\KidsHomeContent.tsx
 
 ```tsx
-import React from 'react';
-import ImageGallery from '@/components/ImageGallery';
-import LazySidebar from '@/components/LazySidebar';
+'use client';
+
+import React, { useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
+import LazySidebar from '@/components/LazySidebar';
+import styles from './KidsHome.module.css';
 
-export default function KidsHomeContent({ bookRecommendation, articlesData, categories }) {
-  console.log('KidsHomeContent articlesData:', JSON.stringify(articlesData, null, 2));
+export default function KidsHomeContent({ articlesData, categories, bookRecommendation }) {
+  const [activeCategory, setActiveCategory] = useState('all');
 
-  if (!articlesData || !articlesData.data || articlesData.data.length === 0) {
-    return <div>Nu există articole disponibile.</div>;
-  }
+  const filteredArticles = activeCategory === 'all' 
+    ? articlesData.data 
+    : articlesData.data.filter(article => article.attributes.category === activeCategory);
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-4xl font-bold mb-8">Lumea Magică a Copiilor</h1>
-      
-      <div className="flex flex-col md:flex-row">
-        <main className="w-full md:w-3/4 pr-0 md:pr-8">
-          <section className="mb-12">
-            <h2 className="text-2xl font-bold mb-4">Articole Recente</h2>
-            <ImageGallery
-  images={articlesData.data.map(article => ({
-    src: article.attributes.coverImage?.data?.attributes?.url || '/placeholder-image.jpg',
-    alt: article.attributes.title,
-    href: `/kids/${article.attributes.slug}`,
-    title: article.attributes.title,
-    excerpt: article.attributes.excerpt || ''
-  }))}
-/>
-          </section>
-          
-          <section>
-            <h2 className="text-2xl font-bold mb-4">Categorii</h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-              {categories.map((category, index) => (
-                <Link href={`/kids/category/${encodeURIComponent(category)}`} key={index} className="no-underline">
-                  <div className="bg-blue-100 p-4 rounded-lg text-center hover:bg-blue-200 transition-colors">
-                    {category}
-                  </div>
+    <div className={styles.kidsContainer}>
+      <header className={styles.kidsHeader}>
+        <h1 className={styles.kidsTitle}>Lumea Magică a Copiilor</h1>
+        <p className={styles.kidsDescription}>
+          Explorați împreună cu noi universul fascinant al copilăriei! Descoperiți povești încântătoare, 
+          cântece vesele și activități creative care vor stimula imaginația și vor aduce bucurie 
+          celor mici în fiecare zi.
+        </p>
+      </header>
+
+      <div className={styles.contentWrapper}>
+        <div className={styles.mainContent}>
+          <nav className={styles.categoryNav}>
+            <button 
+              className={`${styles.categoryButton} ${activeCategory === 'all' ? styles.active : ''}`}
+              onClick={() => setActiveCategory('all')}
+            >
+              Toate
+            </button>
+            {categories.map((category) => (
+              <button 
+                key={category}
+                className={`${styles.categoryButton} ${activeCategory === category ? styles.active : ''}`}
+                onClick={() => setActiveCategory(category)}
+              >
+                {category}
+              </button>
+            ))}
+          </nav>
+
+          <main className={styles.articlesGrid}>
+            {filteredArticles.map((article) => (
+              <div key={article.id} className={styles.articleCardWrapper}>
+                <Link href={`/kids/${article.attributes.slug}`} className={styles.articleCard}>
+                  <Image
+                    src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${article.attributes.coverImage.data.attributes.url}`}
+                    alt={article.attributes.title}
+                    width={300}
+                    height={200}
+                    layout="responsive"
+                    className={styles.articleImage}
+                  />
+                  <h2 className={styles.articleTitle}>{article.attributes.title}</h2>
+                  <p className={styles.articleExcerpt}>{article.attributes.excerpt}</p>
                 </Link>
-              ))}
-            </div>
-          </section>
-        </main>
-        
-        <aside className="w-full md:w-1/4 mt-8 md:mt-0">
+                <Link href={`/kids/${article.attributes.slug}`} className={styles.readMore}>
+                  Citește mai mult
+                </Link>
+              </div>
+            ))}
+          </main>
+        </div>
+
+        <aside className={styles.sidebar}>
           <LazySidebar 
             type="kids"
             categories={categories}
@@ -2929,6 +2470,143 @@ export default function KidsHomeContent({ bookRecommendation, articlesData, cate
       </div>
     </div>
   );
+}
+```
+
+# app\kids\KidsHome.module.css
+
+```css
+/* app/kids/KidsHome.module.css */
+.kidsContainer {
+  background-color: var(--bp-cream);
+  font-family: var(--font-balsamiq-sans), sans-serif;
+}
+
+.kidsHeader {
+  background-color: var(--bp-sky);
+  padding: 60px 20px;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.kidsTitle {
+  color: var(--bp-terracotta);
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  font-family: var(--font-chilanka), cursive;
+}
+
+.kidsDescription {
+  color: var(--bp-chocolate);
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.contentWrapper {
+  display: flex;
+  gap: 30px;
+  padding: 0 20px;
+}
+
+.mainContent {
+  flex: 3;
+}
+
+.categoryNav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.categoryButton {
+  background-color: var(--bp-sage);
+  color: var(--bp-chocolate);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-family: var(--font-patrick-hand), cursive;
+}
+
+.categoryButton:hover, .categoryButton.active {
+  background-color: var(--bp-moss);
+}
+
+.articlesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.articleCardWrapper {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transition: transform 0.3s;
+}
+
+.articleCardWrapper:hover {
+  transform: translateY(-5px);
+}
+
+.articleCard {
+  text-decoration: none;
+  color: inherit;
+  flex-grow: 1;
+}
+
+.articleImage {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.articleTitle {
+  font-size: 1.2rem;
+  padding: 10px;
+  color: var(--bp-chocolate);
+  font-family: var(--font-chilanka), cursive;
+}
+
+.articleExcerpt {
+  padding: 0 10px 10px;
+  color: var(--bp-terracotta);
+}
+
+.readMore {
+  display: block;
+  text-align: center;
+  padding: 10px;
+  background-color: var(--bp-moss);
+  color: white;
+  text-decoration: none;
+  font-family: var(--font-patrick-hand), cursive;
+}
+
+@media (max-width: 768px) {
+  .kidsTitle {
+    font-size: 2rem;
+  }
+  
+  .contentWrapper {
+    flex-direction: column;
+  }
+  
+  .categoryNav {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .categoryButton {
+    width: 100%;
+    max-width: 200px;
+  }
 }
 ```
 
@@ -2971,6 +2649,28 @@ export default function KidsError({
 }
 ```
 
+# app\audiobooks\page.tsx
+
+```tsx
+export default function AudiobooksPage() {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <h1 className="text-3xl font-bold mb-4">Cărți Audio</h1>
+        <p className="mb-4">Ascultă poveștile tale preferate oricând și oriunde!</p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {['Poveste 1', 'Poveste 2', 'Poveste 3'].map((title, index) => (
+            <div key={index} className="bg-white p-4 rounded shadow">
+              <h2 className="text-xl font-semibold mb-2">{title}</h2>
+              <p>O scurtă descriere a cărții audio...</p>
+              <button className="mt-2 bg-yellow-500 text-white px-4 py-2 rounded">Ascultă acum</button>
+            </div>
+          ))}
+        </div>
+      </div>
+    )
+  }
+```
+
 # app\about\page.tsx
 
 ```tsx
@@ -2997,96 +2697,239 @@ export default function Home() {
 }
 ```
 
-# app\audiobooks\page.tsx
-
-```tsx
-export default function AudiobooksPage() {
-    return (
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-4">Cărți Audio</h1>
-        <p className="mb-4">Ascultă poveștile tale preferate oricând și oriunde!</p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {['Poveste 1', 'Poveste 2', 'Poveste 3'].map((title, index) => (
-            <div key={index} className="bg-white p-4 rounded shadow">
-              <h2 className="text-xl font-semibold mb-2">{title}</h2>
-              <p>O scurtă descriere a cărții audio...</p>
-              <button className="mt-2 bg-yellow-500 text-white px-4 py-2 rounded">Ascultă acum</button>
-            </div>
-          ))}
-        </div>
-      </div>
-    )
-  }
-```
-
 # app\roma\[slug]\RomaArticleContent.tsx
 
 ```tsx
+// app/roma/[slug]/RomaArticleContent.tsx
+
 import React from 'react';
-import Hero from '@/components/Hero';
-import OptimizedImage from '@/components/OptimizedImage';
+import Image from 'next/image';
 import LazySidebar from '@/components/LazySidebar';
 import ContentBlock from '@/components/ContentBlock';
-import '@/styles/roma-article.css';
+import styles from './RomaArticleContent.module.css';
 
-interface RomaArticleContentProps {
-  article: any;
-  categories: string[];
-  bookRecommendation: any;
-}
-
-const RomaArticleContent: React.FC<RomaArticleContentProps> = ({ article, categories, bookRecommendation }) => {
-  const { title, category, excerpt, coverImage, content, author } = article.attributes;
+const RomaArticleContent = ({ article, categories, bookRecommendation }) => {
+  const { title, category, excerpt, coverImage, content, author, date } = article.attributes;
 
   const heroImageUrl = coverImage?.data?.attributes?.url
     ? `${process.env.NEXT_PUBLIC_STRAPI_URL}${coverImage.data.attributes.url}`
-    : '/default-roma-hero.jpg';
+    : '/images/default-roma-hero.jpg';
 
   return (
-    <>
-      <Hero 
-        imageUrl={heroImageUrl}
-        title={title}
-        category={category}
-        description={excerpt}
-      />
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex flex-col lg:flex-row">
-          <main className="w-full lg:w-2/3 lg:pr-8">
-            <article className="prose max-w-none">
-              {author && (
-                <p className="text-gray-600 mb-4">de {author}</p>
-              )}
-              {content.map((block, index) => (
-                <ContentBlock 
-                  key={index} 
-                  block={block} 
-                  OptimizedImage={OptimizedImage}
-                />
-              ))}
-            </article>
-          </main>
-          <aside className="w-full lg:w-1/3 mt-8 lg:mt-0">
-            <LazySidebar 
-              type="roma"
-              categories={categories}
-              bookRecommendation={bookRecommendation} 
-            />
-          </aside>
+    <article className={styles.articleContainer}>
+      <div className={styles.heroSection}>
+        <Image
+          src={heroImageUrl}
+          alt={title}
+          layout="fill"
+          className={styles.heroImage}
+        />
+        <div className={styles.heroOverlay}>
+          <h1 className={styles.articleTitle}>{title}</h1>
+          {excerpt && <p className={styles.articleExcerpt}>{excerpt}</p>}
+          <div className={styles.articleMeta}>
+            {category && <span>Categorie: {category} | </span>}
+            {author && <span>de {author} | </span>}
+            {date && <span>Publicat la: {new Date(date).toLocaleDateString()}</span>}
+          </div>
         </div>
       </div>
-    </>
+
+      <div className={styles.contentWrapper}>
+        <main className={styles.mainContent}>
+          <div className={styles.articleContent}>
+            {content.map((block, index) => (
+              <ContentBlock 
+                key={index} 
+                block={block} 
+                styles={styles}
+              />
+            ))}
+          </div>
+        </main>
+        <aside className={styles.sidebar}>
+          <LazySidebar 
+            type="roma"
+            categories={categories}
+            bookRecommendation={bookRecommendation} 
+          />
+        </aside>
+      </div>
+    </article>
   );
 };
 
 export default RomaArticleContent;
 ```
 
+# app\roma\[slug]\RomaArticleContent.module.css
+
+```css
+/* app/roma/[slug]/RomaArticle.module.css */
+
+.articleContainer {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    font-family: 'Lora', serif;
+    color: #3C3C3C;
+    background-color: #FFFBF5;
+  }
+  
+  .heroSection {
+    position: relative;
+    height: 50vh;
+    min-height: 300px;
+    margin-bottom: 2rem;
+  }
+  
+  .heroImage {
+    object-fit: cover;
+    border-radius: 8px;
+  }
+  
+  .heroOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.7));
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 2rem;
+    border-radius: 8px;
+  }
+  
+  .articleTitle {
+    font-family: 'Trajan Pro', serif;
+    font-size: 2.5rem;
+    color: #8B0000;
+  }
+  
+  .articleMeta {
+    font-size: 0.9rem;
+    color: #D6C9B8;
+  }
+  
+  .contentWrapper {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .mainContent {
+    flex: 2;
+    padding-right: 2rem;
+  }
+  
+  .sidebar {
+    flex: 1;
+  }
+  
+  .heading1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: #8B0000;
+  }
+  
+  .heading2 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    color: #8B0000;
+  }
+  
+  .heading3 {
+    font-size: 1.75rem;
+    font-weight: bold;
+    margin-top: 1.25rem;
+    margin-bottom: 0.5rem;
+    color: #8B0000;
+  }
+
+  .articleContent {
+    font-family: var(--font-lora), serif;
+    font-size: 1.1rem;
+    line-height: 1.8;
+  }
+  
+  .articleExcerpt {
+    font-size: 1.2rem;
+    color: #fff;
+    margin-bottom: 1rem;
+    max-width: 80%;
+  }
+
+  .articleParagraph {
+    margin-bottom: 1.5rem;
+  }
+  
+  .articleImage {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+  }
+  
+  .articleQuote {
+    background-color: #8B0000;
+    color: #FFD700;
+    padding: 20px;
+    margin: 30px 0;
+    font-style: italic;
+    border-left: 5px solid #FFD700;
+  }
+  
+  .quoteAuthor {
+    text-align: right;
+    font-weight: bold;
+    margin-top: 0.5rem;
+  }
+
+  .refrain {
+    font-weight: bold;
+    text-align: center;
+    margin: 1.5rem 0;
+    font-size: 1.2rem;
+    color: #8B0000;
+  }
+
+  @media (min-width: 768px) {
+    .contentWrapper {
+      flex-direction: row;
+    }
+  
+    .heroSection {
+      height: 60vh;
+    }
+  
+    .articleTitle {
+      font-size: 3rem;
+    }
+  }
+  
+  @media (max-width: 767px) {
+    .mainContent {
+      padding-right: 0;
+    }
+  
+    .sidebar {
+      margin-top: 2rem;
+    }
+  }
+```
+
 # app\roma\[slug]\page.tsx
 
 ```tsx
+// app/roma/[slug]/page.tsx
+
 import { Metadata } from 'next';
-import { getArticle, getArticleSlugs, getCategories, getBookRecommendation } from '@/lib/api';
+import { getArticle, getCategories, getBookRecommendation } from '@/lib/api';
 import { generateMetadata as generateSEOMetadata } from '@/components/SEO';
 import RomaArticleContent from './RomaArticleContent';
 import { notFound } from 'next/navigation';
@@ -3104,46 +2947,35 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
   }
 
-  const { title, excerpt, seo, date, coverImage, keywords, author } = article.attributes;
-  const sharedImage = seo?.SharedImage || (coverImage?.data?.attributes?.url
-    ? {
-        alt: title,
-        media: { url: `${process.env.NEXT_PUBLIC_STRAPI_URL}${coverImage.data.attributes.url}` }
-      }
-    : undefined);
-
+  const { title, excerpt, seo, keywords, author, date } = article.attributes;
+  
   return generateSEOMetadata({
     metaTitle: seo?.metaTitle || title,
-    metaDescription: seo?.metaDescription || excerpt || '',
+    metaDescription: seo?.metaDescription || excerpt,
+    keywords: seo?.keywords || keywords,
+    author: author,
     articleDate: date,
-    sharedImage,
-    keywords,
-    author,
+    sharedImage: seo?.sharedImage,
     language: 'ro',
     url: `https://www.example.com/roma/${params.slug}`,
   });
 }
 
-export async function generateStaticParams() {
-  const slugs = await getArticleSlugs('roma');
-  return slugs.map(slug => ({ slug }));
-}
-
 export default async function RomaArticlePage({ params }: PageProps) {
   const article = await getArticle(params.slug);
-
+  
   if (!article) {
     notFound();
   }
 
-  const categories = await getCategories('roma') || [];
+  const categories = await getCategories('roma');
   const bookRecommendation = await getBookRecommendation('roma');
 
   return (
-    <RomaArticleContent 
-      article={article} 
-      categories={categories} 
-      bookRecommendation={bookRecommendation} 
+    <RomaArticleContent
+      article={article}
+      categories={categories}
+      bookRecommendation={bookRecommendation}
     />
   );
 }
@@ -3153,9 +2985,9 @@ export default async function RomaArticlePage({ params }: PageProps) {
 
 ```tsx
 import { Metadata } from 'next';
-import { getArticle, getArticleSlugs, getCategories, getBookRecommendation } from '@/lib/api';
-import { generateMetadata as generateSEOMetadata } from '@/components/SEO';
+import { getArticle, getCategories, getBookRecommendation } from '@/lib/api';
 import KidsArticleContent from './KidsArticleContent';
+import { generateMetadata as generateSEOMetadata } from '@/components/SEO';
 import { notFound } from 'next/navigation';
 
 interface PageProps {
@@ -3171,46 +3003,35 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
   }
 
-  const { title, excerpt, seo, date, coverImage, keywords, author } = article.attributes;
-  const sharedImage = seo?.SharedImage || (coverImage?.data?.attributes?.url
-    ? {
-        alt: title,
-        media: { url: `${process.env.NEXT_PUBLIC_STRAPI_URL}${coverImage.data.attributes.url}` }
-      }
-    : undefined);
-
+  const { title, excerpt, seo, keywords, author, date } = article.attributes;
+  
   return generateSEOMetadata({
     metaTitle: seo?.metaTitle || title,
-    metaDescription: seo?.metaDescription || excerpt || '',
+    metaDescription: seo?.metaDescription || excerpt,
+    keywords: seo?.keywords || keywords,
+    author: author,
     articleDate: date,
-    sharedImage,
-    keywords,
-    author,
+    sharedImage: seo?.sharedImage,
     language: 'ro',
     url: `https://www.example.com/kids/${params.slug}`,
   });
 }
 
-export async function generateStaticParams() {
-  const slugs = await getArticleSlugs('kids');
-  return slugs.map(slug => ({ slug }));
-}
-
 export default async function KidsArticlePage({ params }: PageProps) {
   const article = await getArticle(params.slug);
-
+  
   if (!article) {
     notFound();
   }
 
-  const categories = await getCategories('kids') || [];
+  const categories = await getCategories('kids');
   const bookRecommendation = await getBookRecommendation('kids');
 
   return (
-    <KidsArticleContent 
-      article={article} 
-      categories={categories} 
-      bookRecommendation={bookRecommendation} 
+    <KidsArticleContent
+      article={article}
+      categories={categories}
+      bookRecommendation={bookRecommendation}
     />
   );
 }
@@ -3220,58 +3041,72 @@ export default async function KidsArticlePage({ params }: PageProps) {
 
 ```tsx
 import React from 'react';
-import Hero from '@/components/Hero';
-import OptimizedImage from '@/components/OptimizedImage';
+import Image from 'next/image';
 import LazySidebar from '@/components/LazySidebar';
 import ContentBlock from '@/components/ContentBlock';
-import '@/styles/kids-article.css';
+import styles from './KidsArticleContent.module.css';
+import Head from 'next/head';
 
-interface KidsArticleContentProps {
-  article: any;
-  categories: string[];
-  bookRecommendation: any;
-}
-
-const KidsArticleContent: React.FC<KidsArticleContentProps> = ({ article, categories, bookRecommendation }) => {
-  const { title, category, excerpt, coverImage, content, author } = article.attributes;
-
-  const heroImageUrl = coverImage?.data?.attributes?.url
-    ? `${process.env.NEXT_PUBLIC_STRAPI_URL}${coverImage.data.attributes.url}`
-    : '/default-kids-hero.jpg';
+const KidsArticleContent = ({ article, categories, bookRecommendation }) => {
+  const { title, category, excerpt, coverImage, content, author, date, seo } = article.attributes;
 
   return (
     <>
-      <Hero 
-        imageUrl={heroImageUrl}
-        title={title}
-        category={category}
-        description={excerpt}
-      />
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex flex-col lg:flex-row">
-          <main className="w-full lg:w-2/3 lg:pr-8">
-            <article className="prose max-w-none">
-              {author && (
-                <p className="text-gray-600 mb-4">de {author}</p>
-              )}
-              {content.map((block, index) => (
-                <ContentBlock 
-                  key={index} 
-                  block={block} 
-                  OptimizedImage={OptimizedImage}
-                />
-              ))}
-            </article>
-          </main>
-          <aside className="w-full lg:w-1/3 mt-8 lg:mt-0">
-            <LazySidebar 
-              type="kids"
-              categories={categories}
-              bookRecommendation={bookRecommendation} 
+      <Head>
+        <title>{seo?.metaTitle || title}</title>
+        <meta name="description" content={seo?.metaDescription || excerpt} />
+        {seo?.keywords && <meta name="keywords" content={seo.keywords} />}
+        <meta name="robots" content="index, follow" />
+        {/* Adăugați aici alte meta tag-uri necesare */}
+      </Head>
+      <article className={styles.articleContainer}>
+        {coverImage && coverImage.data && (
+          <div className={styles.heroImageContainer}>
+            <Image
+              src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${coverImage.data.attributes.url}`}
+              alt={coverImage.data.attributes.alternativeText || title}
+              layout="fill"
+              objectFit="cover"
+              className={styles.heroImage}
             />
-          </aside>
+            <div className={styles.heroOverlay}>
+              <h1 className={styles.articleTitle}>{title}</h1>
+            </div>
+          </div>
+        )}
+
+        <div className={styles.contentWrapper}>
+          <div className={styles.articleMeta}>
+            {category && <span>Categorie: {category} | </span>}
+            {author && <span>de {author} | </span>}
+            {date && <span>Publicat la: {new Date(date).toLocaleDateString()}</span>}
+          </div>
+          
+          {excerpt && <p className={styles.articleExcerpt}>{excerpt}</p>}
+
+          <div className="flex flex-col lg:flex-row">
+            <main className={styles.mainContent}>
+              <div className={styles.articleContent}>
+                {content.map((block, index) => (
+                  <ContentBlock 
+                    key={index} 
+                    block={block}
+                    styles={styles}
+                  />
+                ))}
+              </div>
+            </main>
+
+            <aside className={styles.sidebar}>
+              <LazySidebar 
+                type="kids"
+                categories={categories}
+                bookRecommendation={bookRecommendation} 
+              />
+            </aside>
+          </div>
         </div>
-      </div>
+      </article>
     </>
   );
 };
@@ -3279,55 +3114,190 @@ const KidsArticleContent: React.FC<KidsArticleContentProps> = ({ article, catego
 export default KidsArticleContent;
 ```
 
+# app\kids\[slug]\KidsArticleContent.module.css
+
+```css
+.articleContainer {
+  background-color: var(--bp-cream);
+  color: var(--bp-chocolate);
+  font-family: 'Farro', sans-serif;
+}
+
+/* HERO */
+
+.heroImageContainer {
+  position: relative;
+  height: 70vh;
+  min-height: 400px;
+}
+
+.heroImage {
+  object-fit: cover;
+}
+
+.heroOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.3));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+}
+
+/* Article */
+
+.articleTitle {
+  font-family: var(--font-chilanka), cursive;
+  font-size: 2.5rem;
+  color: #4a9eff;
+}
+
+.articleMeta {
+  font-size: 1rem;
+  color: var(--bp-sage);
+  margin-bottom: 1rem;
+}
+
+.articleExcerpt {
+  font-size: 1.2rem;
+  color: white;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.contentWrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.mainContent {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.sidebar {
+  width: 100%;
+  max-width: 300px;
+  margin: 2rem auto 0;
+}
+
+.articleContent {
+  font-family: var(--font-balsamiq-sans), sans-serif;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.articleFigure {
+  margin: 2rem 0;
+}
+
+.articleImage {
+  max-width: 50%;
+  height: auto;
+  display: block;
+}
+
+.articleImage:hover {
+  transform: rotate(0deg) scale(1.05);
+}
+
+.articleCaption {
+  margin-top: 0.5rem;
+  font-style: italic;
+  color: #666;
+  text-align: center;
+}
+
+.articleParagraph {
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.articleQuote {
+  font-family: var(--font-patrick-hand), cursive;
+  font-size: 1.3rem;
+  color: #FFB74D;
+  border-left: 4px solid #FFB74D;
+  padding-left: 1rem;
+  margin: 1.5rem 0;
+}
+
+@media (max-width: 768px) {
+  .heroImageContainer {
+    height: 50vh;
+  }
+
+  .articleTitle {
+    font-size: 2rem;
+  }
+
+  .contentWrapper {
+    padding: 1rem;
+  }
+
+  .articleImage {
+    width: 100%;
+    margin-left: 0;
+    transform: none;
+  }
+
+  .articleImage:hover {
+    transform: none;
+  }
+}
+```
+
 # app\roma\category\[categorie]\RomaCategoryContent.tsx
 
 ```tsx
 import React from 'react';
+import Link from 'next/link';
 import OptimizedImage from '@/components/OptimizedImage';
 import LazySidebar from '@/components/LazySidebar';
-import Link from 'next/link';
 import ChronologicalNavigation from '@/components/ChronologicalNavigation';
+import styles from './category.module.css';
 
 export default function RomaCategoryContent({ categorie, bookRecommendation, articlesData, categories }) {
-  // Aici puteți adăuga logica pentru a genera perioadele pentru ChronologicalNavigation
   const perioade = [-800, -500, -200, 0, 200, 500]; // Exemplu de perioade
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-4xl font-bold mb-8">{categorie}</h1>
-      
-      <div className="flex flex-col lg:flex-row">
-        <div className="w-full lg:w-1/12 mb-4 lg:mb-0">
-          <ChronologicalNavigation categorie={categorie} perioade={perioade} />
-        </div>
-        <main className="w-full lg:w-8/12 lg:px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {articlesData.data.map((article) => (
-              <Link href={`/roma/${article.attributes.slug}`} key={article.id}>
-                <div className="border rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
-                  <OptimizedImage
-                    src={article.attributes.coverImage?.data?.attributes?.url || '/placeholder-image.jpg'}
-                    alt={article.attributes.title}
-                    width={400}
-                    height={300}
-                  />
-                  <div className="p-4">
-                    <h2 className="text-xl font-bold mb-2">{article.attributes.title}</h2>
-                    <p className="text-gray-600 text-sm">{article.attributes.excerpt}</p>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </main>
-        <aside className="w-full lg:w-3/12 mt-6 lg:mt-0">
-          <LazySidebar 
-            type="roma"
-            categories={categories}
-            bookRecommendation={bookRecommendation}
-          />
-        </aside>
+    <div className="flex flex-col lg:flex-row">
+      <div className="w-full lg:w-1/4 mb-4 lg:mb-0">
+        <ChronologicalNavigation categorie={categorie} perioade={perioade} />
       </div>
+      <main className="w-full lg:w-1/2 lg:px-6">
+        <div className={styles.categoryGrid}>
+          {articlesData.data.map((article) => (
+            <Link href={`/roma/${article.attributes.slug}`} key={article.id} className="no-underline">
+              <div className={styles.categoryCard}>
+                <OptimizedImage
+                  src={article.attributes.coverImage?.data?.attributes?.url || '/placeholder-image.jpg'}
+                  alt={article.attributes.title}
+                  width={400}
+                  height={300}
+                />
+                <h2 className={styles.categoryCardTitle}>{article.attributes.title}</h2>
+                <p className={styles.categoryCardExcerpt}>{article.attributes.excerpt}</p>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </main>
+      <aside className="w-full lg:w-1/4 mt-6 lg:mt-0">
+        <LazySidebar 
+          type="roma"
+          categories={categories}
+          bookRecommendation={bookRecommendation}
+        />
+      </aside>
     </div>
   );
 }
@@ -3339,6 +3309,7 @@ export default function RomaCategoryContent({ categorie, bookRecommendation, art
 import React from 'react';
 import { getBookRecommendation, getArticles, getCategories } from '@/lib/api';
 import RomaCategoryContent from './RomaCategoryContent';
+import styles from './category.module.css';
 
 export default async function RomaCategoryPage({ params }: { params: { categorie: string } }) {
   const decodedCategorie = decodeURIComponent(params.categorie);
@@ -3347,13 +3318,64 @@ export default async function RomaCategoryPage({ params }: { params: { categorie
   const categories = await getCategories('roma');
 
   return (
-    <RomaCategoryContent
-      categorie={decodedCategorie}
-      bookRecommendation={bookRecommendation}
-      articlesData={articlesData}
-      categories={categories}
-    />
+    <div className={styles.categoryContainer}>
+      <h1 className={styles.categoryHeading}>{decodedCategorie}</h1>
+      <RomaCategoryContent
+        categorie={decodedCategorie}
+        bookRecommendation={bookRecommendation}
+        articlesData={articlesData}
+        categories={categories}
+      />
+    </div>
   );
+}
+```
+
+# app\roma\category\[categorie]\category.module.css
+
+```css
+.categoryContainer {
+  @apply bg-roma-background text-roma-text p-6;
+}
+
+.categoryHeading {
+  @apply text-3xl font-trajan text-roma-primary mb-6 text-center;
+}
+
+.categoryGrid {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6;
+}
+
+.categoryCard {
+  @apply bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow;
+}
+
+.categoryCardTitle {
+  @apply text-xl font-trajan text-roma-primary mb-2;
+}
+
+.categoryCardExcerpt {
+  @apply text-sm font-lora text-roma-text;
+}
+
+.chronologicalNav {
+  @apply bg-roma-secondary p-4 rounded-lg mb-6;
+}
+
+.chronologicalNavTitle {
+  @apply text-lg font-trajan text-roma-primary mb-2;
+}
+
+.chronologicalNavList {
+  @apply list-none p-0;
+}
+
+.chronologicalNavItem {
+  @apply mb-1;
+}
+
+.chronologicalNavLink {
+  @apply text-roma-text font-lora hover:text-roma-primary transition-colors;
 }
 ```
 
@@ -3389,13 +3411,12 @@ import OptimizedImage from '@/components/OptimizedImage';
 import LazySidebar from '@/components/LazySidebar';
 import Link from 'next/link';
 import AlphabeticalNavigation from '@/components/AlphabeticalNavigation';
+import styles from './category.module.css';
 
 export default function KidsCategoryContent({ categorie, bookRecommendation, articlesData, categories }) {
-  console.log('Category articlesData:', articlesData); // Adăugați acest log pentru debugging
-
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-4xl font-bold mb-8">{categorie}</h1>
+    <div className={styles.categoryContainer}>
+      <h1 className={styles.categoryHeading}>{categorie}</h1>
       
       <div className="flex flex-col md:flex-row">
         <aside className="w-full md:w-1/4 md:pr-8 mb-8 md:mb-0">
@@ -3403,10 +3424,10 @@ export default function KidsCategoryContent({ categorie, bookRecommendation, art
         </aside>
         
         <main className="w-full md:w-1/2">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className={styles.categoryGrid}>
             {articlesData.data.map((article) => (
-              <Link href={`/kids/${article.attributes.slug}`} key={article.id}>
-                <div className="border rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <Link href={`/kids/${article.attributes.slug}`} key={article.id} className="no-underline">
+                <div className={styles.categoryCard}>
                   <OptimizedImage
                     src={article.attributes.coverImage?.data?.attributes?.url 
                       ? `${process.env.NEXT_PUBLIC_STRAPI_URL}${article.attributes.coverImage.data.attributes.url}`
@@ -3415,10 +3436,8 @@ export default function KidsCategoryContent({ categorie, bookRecommendation, art
                     width={400}
                     height={300}
                   />
-                  <div className="p-4">
-                    <h2 className="text-xl font-bold mb-2">{article.attributes.title}</h2>
-                    <p className="text-gray-600 text-sm">{article.attributes.excerpt}</p>
-                  </div>
+                  <h2 className={styles.categoryCardTitle}>{article.attributes.title}</h2>
+                  <p className={styles.categoryCardExcerpt}>{article.attributes.excerpt}</p>
                 </div>
               </Link>
             ))}
@@ -3435,6 +3454,35 @@ export default function KidsCategoryContent({ categorie, bookRecommendation, art
       </div>
     </div>
   );
+}
+```
+
+# app\kids\category\[categorie]\category.module.css
+
+```css
+/* app/kids/category/[categorie]/category.module.css */
+.categoryContainer {
+  @apply bg-kids-background text-kids-text p-6;
+}
+
+.categoryHeading {
+  @apply text-3xl font-chilanka text-kids-primary mb-6 text-center;
+}
+
+.categoryGrid {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6;
+}
+
+.categoryCard {
+  @apply bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow;
+}
+
+.categoryCardTitle {
+  @apply text-xl font-chilanka text-kids-primary mb-2;
+}
+
+.categoryCardExcerpt {
+  @apply text-sm font-balsamiq-sans text-kids-text;
 }
 ```
 

@@ -1,12 +1,9 @@
+// components/Sidebar.tsx
+
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import dynamic from 'next/dynamic';
-
-const DynamicClientSidebarContent = dynamic(() => import('./ClientSidebarContent'), {
-  loading: () => <p>Loading interactive content...</p>,
-  ssr: false
-});
+import styles from './Sidebar.module.css';
 
 interface SidebarProps {
   type: 'kids' | 'roma';
@@ -21,35 +18,34 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ type, categories = [], bookRecommendation }) => {
   return (
-    <div>
-      {/* Recomandare carte */}
+    <div className={styles.sidebar}>
       {bookRecommendation && (
-        <div className="sidebar-section sidebar-book">
-          <div className="bg-white p-4 rounded-lg shadow">
+        <div className={styles.sidebarSection}>
+          <h3 className={styles.sectionTitle}>Cartea Recomandată</h3>
+          <div className={styles.bookContent}>
             <Image
-              src={bookRecommendation.imageUrl || '/placeholder-book.jpg'}
-              alt={bookRecommendation.title || 'Recommended Book'}
-              width={250}
-              height={250}
-              className="mx-auto mb-2"
+              src={bookRecommendation.imageUrl}
+              alt={bookRecommendation.title}
+              width={150}
+              height={200}
+              className={styles.bookImage}
             />
-            <h3 className="text-lg font-semibold mb-1">{bookRecommendation.title}</h3>
-            <p className="text-gray-600 mb-2">{bookRecommendation.price} RON</p>
-            <Link href={bookRecommendation.link} className="buy-button">
+            <p className={styles.bookTitle}>{bookRecommendation.title}</p>
+            <p className={styles.bookPrice}>{bookRecommendation.price} RON</p>
+            <Link href={bookRecommendation.link} className={styles.buyButton}>
               Cumpără acum
             </Link>
           </div>
         </div>
       )}
       
-      {/* Categorii */}
       {categories.length > 0 && (
-        <div className="sidebar-section sidebar-categories">
-          <h2 className="sidebar-title">Categorii</h2>
-          <ul>
+        <div className={styles.sidebarSection}>
+          <h3 className={styles.sectionTitle}>Categorii</h3>
+          <ul className={styles.categoryList}>
             {categories.map((category, index) => (
-              <li key={index} className="mb-1">
-                <Link href={`/${type}/category/${encodeURIComponent(category)}`} className="sidebar-link">
+              <li key={index} className={styles.categoryItem}>
+                <Link href={`/${type}/category/${encodeURIComponent(category)}`} className={styles.categoryLink}>
                   {category}
                 </Link>
               </li>
@@ -58,8 +54,19 @@ const Sidebar: React.FC<SidebarProps> = ({ type, categories = [], bookRecommenda
         </div>
       )}
 
-      {/* Conținut dinamic încărcat pe client */}
-      <DynamicClientSidebarContent type={type} />
+      <div className={styles.sidebarSection}>
+        <h3 className={styles.sectionTitle}>Publicitate</h3>
+        <p>Spațiu rezervat pentru AdSense</p>
+      </div>
+
+      <div className={styles.sidebarSection}>
+        <h3 className={styles.sectionTitle}>Resurse utile</h3>
+        <ul className={styles.resourceList}>
+          <li><Link href="#" className={styles.resourceLink}>Activități pentru copii</Link></li>
+          <li><Link href="#" className={styles.resourceLink}>Recomandări de lectură</Link></li>
+          <li><Link href="#" className={styles.resourceLink}>Jocuri educative online</Link></li>
+        </ul>
+      </div>
     </div>
   );
 };

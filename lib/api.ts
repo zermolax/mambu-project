@@ -60,7 +60,7 @@ export const getArticles = async (section: 'kids' | 'roma', page = 1, pageSize =
       sort: ['createdAt:desc'],
       filters,
       populate: ['coverImage'],
-      fields: ['title', 'slug', 'category', 'excerpt']
+      fields: ['title', 'slug', 'excerpt', 'category', 'author', 'date', 'keywords', 'tags']
     }, 10); // Revalidare la fiecare 10 secunde
     
     return response;
@@ -80,11 +80,11 @@ export const getArticle = async (slug: string) => {
           populate: '*'
         },
         seo: {
-          populate: ['SharedImage']
+          populate: '*'
         }
       },
-      fields: ['title', 'slug', 'excerpt', 'category', 'date', 'updatedAt']
-    }, 30); // Revalidare la fiecare 5 minute
+      fields: ['title', 'slug', 'excerpt', 'category', 'author', 'date', 'keywords']
+    });
     
     if (response.data && response.data.length > 0) {
       return response.data[0];

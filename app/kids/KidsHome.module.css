@@ -1,0 +1,185 @@
+/* app/kids/KidsHome.module.css */
+.kidsContainer {
+  background-color: var(--kids-background);
+  font-family: 'ABeeZee', sans-serif;
+}
+
+.kidsHeader {
+  position: relative;
+  background-image: url('/images/kids-hero.jpg');
+  background-size: cover;
+  background-position: center;
+  height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.heroOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.heroContent {
+  position: relative;
+  z-index: 1;
+  color: #fff;
+  padding: 20px;
+}
+
+.kidsTitle {
+  color: var(--kids-primary);
+  font-size: 3rem;
+  margin-bottom: 15px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.kidsDescription {
+  color: #fff;
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.6;
+  font-size: 1.2rem;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.contentWrapper {
+  display: flex;
+  gap: 30px;
+  padding: 0 20px;
+}
+
+.mainContent {
+  flex: 3;
+}
+
+.categoryNav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.categoryButton {
+  background-color: var(--kids-secondary);
+  color: var(--kids-text);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.categoryButton:hover, .categoryButton.active {
+  background-color: var(--kids-primary);
+  color: #fff;
+}
+
+.categorySection {
+  padding: 40px 0;
+}
+
+.evenSection {
+  background-color: var(--bp-cream);
+}
+
+.oddSection {
+  background-color: #fff;
+}
+
+.sectionTitle {
+  font-size: 2rem;
+  color: var(--kids-primary);
+  margin: -15px 0px 20px 10px;
+}
+
+.articlesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.articleCardWrapper {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transition: transform 0.3s;
+}
+
+.articleCardWrapper:hover {
+  transform: translateY(-5px);
+}
+
+.articleCard {
+  text-decoration: none;
+  color: inherit;
+  flex-grow: 1;
+}
+
+.articleImage {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.articleTitle {
+  font-size: 1.2rem;
+  padding: 10px;
+  color: var(--kids-primary);
+}
+
+.articleExcerpt {
+  padding: 0 10px 10px;
+  color: var(--kids-text);
+}
+
+.readMore {
+  display: block;
+  text-align: center;
+  padding: 10px;
+  background-color: var(--kids-secondary);
+  color: var(--kids-text);
+  text-decoration: none;
+}
+
+.readMore:hover {
+  background-color: var(--kids-primary);
+  color: #fff;
+}
+
+.sidebar {
+  flex: 1;
+}
+
+@media (max-width: 768px) {
+  .kidsTitle {
+    font-size: 2.5rem;
+  }
+  
+  .contentWrapper {
+    flex-direction: column;
+  }
+  
+  .categoryNav {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .categoryButton {
+    width: 100%;
+    max-width: 200px;
+  }
+}
+
+.font-abeezee {
+  font-family: 'ABeeZee', sans-serif;
+}

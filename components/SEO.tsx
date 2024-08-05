@@ -28,15 +28,6 @@ export function generateMetadata({
   language,
   url
 }: SEOProps): Metadata {
-  const ogImage = sharedImage && sharedImage.media && sharedImage.media.url
-    ? [
-        {
-          url: sharedImage.media.url,
-          alt: sharedImage.alt || metaTitle,
-        }
-      ]
-    : undefined;
-
   return {
     title: metaTitle,
     description: metaDescription,
@@ -45,7 +36,12 @@ export function generateMetadata({
     openGraph: {
       title: metaTitle,
       description: metaDescription,
-      images: ogImage,
+      images: sharedImage && sharedImage.media ? [
+        {
+          url: sharedImage.media.url,
+          alt: sharedImage.alt || metaTitle,
+        }
+      ] : undefined,
       type: 'article',
       url: url,
     },
@@ -53,7 +49,7 @@ export function generateMetadata({
       card: 'summary_large_image',
       title: metaTitle,
       description: metaDescription,
-      images: ogImage ? [ogImage[0].url] : undefined,
+      images: sharedImage && sharedImage.media ? [sharedImage.media.url] : undefined,
     },
     ...(articleDate && {
       'article:published_time': articleDate
@@ -67,10 +63,3 @@ export function generateMetadata({
     },
   };
 }
-
-const SEO: React.FC<SEOProps> = (props) => {
-  // Acest component nu mai trebuie să returneze nimic vizibil
-  return null;
-};
-
-export default SEO;

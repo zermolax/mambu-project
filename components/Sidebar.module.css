@@ -1,0 +1,71 @@
+/* components/Sidebar.module.css */
+
+.sidebar {
+  background-color: #f0f0f0;
+  padding: 15px;
+  font-family: Arial, sans-serif;
+}
+
+.sidebarSection {
+  background-color: #ffffff;
+  margin-bottom: 15px;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.sectionTitle {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.bookContent {
+  text-align: center;
+}
+
+.bookImage {
+  margin-bottom: 10px;
+}
+
+.bookTitle {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.bookPrice {
+  font-size: 16px;
+  font-weight: bold;
+  color: #000;
+  margin-bottom: 10px;
+}
+
+.buyButton {
+  display: inline-block;
+  background-color: #8B0000;
+  color: #ffffff;
+  padding: 8px 15px;
+  text-decoration: none;
+  border-radius: 3px;
+  font-size: 14px;
+}
+
+.categoryList, .resourceList {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.categoryItem, .resourceList li {
+  margin-bottom: 5px;
+}
+
+.categoryLink, .resourceLink {
+  color: #0000FF;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.categoryLink:hover, .resourceLink:hover {
+  text-decoration: underline;
+}

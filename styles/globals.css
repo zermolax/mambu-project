@@ -2,12 +2,37 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* Paleta de culori pentru Kids */
+  --kids-primary: #4a9eff;
+  --kids-secondary: #FFB74D;
+  --kids-background: #E6F3FF;
+  --kids-text: #4A4A4A;
+  --bp-cream: #F3E9D2;
+  --bp-sage: #C7D1C4;
+  --bp-sky: #A1C6EA;
+  --bp-duck-egg: #BBD1DC;
+  --bp-moss: #88AB75;
+  --bp-terracotta: #D5573B;
+  --bp-chocolate: #3A2E39;
+  --bp-lavender: #8E7DBE;
+}
+
+  /* Fonturi */
+  --font-kids: 'Comic Sans MS', 'Chalkboard SE', 'Arial', sans-serif;
+}
+
 body {
-    font-family: 'Faustina', serif;
-  }
-  
-  .article-content {
-    font-family: 'Faustina', serif;
-    line-height: 1.6;
-    font-size: 1.1rem;
-  }
+  @apply bg-gray-100;
+  font-family: 'Faustina', serif;
+}
+
+/* Stiluri globale pentru headings */
+h1, h2, h3, h4, h5, h6 {
+  @apply font-bold mb-4;
+}
+
+/* Stiluri globale pentru linkuri */
+a {
+  @apply text-blue-600 hover:text-blue-800;
+}

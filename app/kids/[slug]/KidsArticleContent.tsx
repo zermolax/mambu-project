@@ -1,56 +1,70 @@
 import React from 'react';
-import Hero from '@/components/Hero';
-import OptimizedImage from '@/components/OptimizedImage';
+import Image from 'next/image';
 import LazySidebar from '@/components/LazySidebar';
 import ContentBlock from '@/components/ContentBlock';
-import '@/styles/kids-article.css';
+import styles from './KidsArticleContent.module.css';
+import Head from 'next/head';
 
-interface KidsArticleContentProps {
-  article: any;
-  categories: string[];
-  bookRecommendation: any;
-}
-
-const KidsArticleContent: React.FC<KidsArticleContentProps> = ({ article, categories, bookRecommendation }) => {
-  const { title, category, excerpt, coverImage, content, author } = article.attributes;
-
-  const heroImageUrl = coverImage?.data?.attributes?.url
-    ? `${process.env.NEXT_PUBLIC_STRAPI_URL}${coverImage.data.attributes.url}`
-    : '/default-kids-hero.jpg';
+const KidsArticleContent = ({ article, categories, bookRecommendation }) => {
+  const { title, category, excerpt, coverImage, content, author, date, seo } = article.attributes;
 
   return (
     <>
-      <Hero 
-        imageUrl={heroImageUrl}
-        title={title}
-        category={category}
-        description={excerpt}
-      />
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex flex-col lg:flex-row">
-          <main className="w-full lg:w-2/3 lg:pr-8">
-            <article className="prose max-w-none">
-              {author && (
-                <p className="text-gray-600 mb-4">de {author}</p>
-              )}
-              {content.map((block, index) => (
-                <ContentBlock 
-                  key={index} 
-                  block={block} 
-                  OptimizedImage={OptimizedImage}
-                />
-              ))}
-            </article>
-          </main>
-          <aside className="w-full lg:w-1/3 mt-8 lg:mt-0">
-            <LazySidebar 
-              type="kids"
-              categories={categories}
-              bookRecommendation={bookRecommendation} 
+      <Head>
+        <title>{seo?.metaTitle || title}</title>
+        <meta name="description" content={seo?.metaDescription || excerpt} />
+        {seo?.keywords && <meta name="keywords" content={seo.keywords} />}
+        <meta name="robots" content="index, follow" />
+        {/* Adăugați aici alte meta tag-uri necesare */}
+      </Head>
+      <article className={styles.articleContainer}>
+        {coverImage && coverImage.data && (
+          <div className={styles.heroImageContainer}>
+            <Image
+              src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${coverImage.data.attributes.url}`}
+              alt={coverImage.data.attributes.alternativeText || title}
+              layout="fill"
+              objectFit="cover"
+              className={styles.heroImage}
             />
-          </aside>
+            <div className={styles.heroOverlay}>
+              <h1 className={styles.articleTitle}>{title}</h1>
+            </div>
+          </div>
+        )}
+
+        <div className={styles.contentWrapper}>
+          <div className={styles.articleMeta}>
+            {category && <span>Categorie: {category} | </span>}
+            {author && <span>de {author} | </span>}
+            {date && <span>Publicat la: {new Date(date).toLocaleDateString()}</span>}
+          </div>
+          
+          {excerpt && <p className={styles.articleExcerpt}>{excerpt}</p>}
+
+          <div className="flex flex-col lg:flex-row">
+            <main className={styles.mainContent}>
+              <div className={styles.articleContent}>
+                {content.map((block, index) => (
+                  <ContentBlock 
+                    key={index} 
+                    block={block}
+                    styles={styles}
+                  />
+                ))}
+              </div>
+            </main>
+
+            <aside className={styles.sidebar}>
+              <LazySidebar 
+                type="kids"
+                categories={categories}
+                bookRecommendation={bookRecommendation} 
+              />
+            </aside>
+          </div>
         </div>
-      </div>
+      </article>
     </>
   );
 };

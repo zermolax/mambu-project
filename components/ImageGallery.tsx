@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import OptimizedImage from './OptimizedImage';
+import Image from 'next/image';
 
 interface GalleryImage {
   src: string;
@@ -8,6 +8,8 @@ interface GalleryImage {
   href: string;
   title: string;
   excerpt: string;
+  width: number;
+  height: number;
 }
 
 interface ImageGalleryProps {
@@ -15,8 +17,6 @@ interface ImageGalleryProps {
 }
 
 export default function ImageGallery({ images }: ImageGalleryProps) {
-  console.log('ImageGallery images:', images);
-
   if (!images || images.length === 0) {
     return <div>Nu există imagini disponibile.</div>;
   }
@@ -26,9 +26,13 @@ export default function ImageGallery({ images }: ImageGalleryProps) {
       {images.map((image, index) => (
         <Link href={image.href} key={index} className="no-underline">
           <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 h-full">
-            <OptimizedImage
+            <Image
               src={image.src}
               alt={image.alt}
+              width={image.width}
+              height={image.height}
+              layout="responsive"
+              objectFit="cover"
             />
             <div className="p-4">
               <h3 className="text-lg font-semibold mb-2 text-gray-800">{image.title}</h3>

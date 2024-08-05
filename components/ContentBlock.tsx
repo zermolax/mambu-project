@@ -1,22 +1,45 @@
+// components/ContentBlock.tsx
+
 import React from 'react';
+import Image from 'next/image';
 import RichTextContent from './RichTextContent';
 
-const ContentBlock = ({ block, OptimizedImage }) => {
+const ContentBlock = ({ block, styles }) => {
+  console.log('ContentBlock received:', block); // Pentru debugging
+
   switch (block.__component) {
     case 'content.text-block':
-      return <RichTextContent content={block.content} />;
+      return (
+        <div className={styles.articleParagraph}>
+          {Array.isArray(block.content) ? (
+            block.content.map((item, index) => {
+              if (item.type === 'paragraph') {
+                return <p key={index}>{item.children.map(child => child.text).join('')}</p>;
+              } else if (item.type === 'heading') {
+                const HeadingTag = `h${item.level}` as keyof JSX.IntrinsicElements;
+                return <HeadingTag key={index} className={styles[`heading${item.level}`]}>{item.children.map(child => child.text).join('')}</HeadingTag>;
+              }
+              return null;
+            })
+          ) : (
+            <RichTextContent content={block.content} />
+          )}
+        </div>
+      );
 
     case 'image.image-block':
       if (block.image?.data) {
+        const imageData = block.image.data.attributes;
         return (
-          <figure className="my-4">
-            <OptimizedImage
-              src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${block.image.data.attributes.url}`}
-              alt={block.caption || 'Image'}
-              width={600}
-              height={400}
+          <figure className={styles.articleFigure}>
+            <Image
+              src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${imageData.url}`}
+              alt={block.caption || imageData.alternativeText || ''}
+              width={imageData.width}
+              height={imageData.height}
+              layout="responsive"
+              className={styles.articleImage}
             />
-            {block.caption && <figcaption className="text-center mt-2">{block.caption}</figcaption>}
           </figure>
         );
       }
@@ -24,22 +47,21 @@ const ContentBlock = ({ block, OptimizedImage }) => {
 
     case 'quote.citate':
       return (
-        <blockquote className="article-quote">
+        <blockquote className={styles.articleQuote}>
           <p>{block.text}</p>
-          {block.autor && <footer>— {block.autor}</footer>}
+          {block.autor && <footer className={styles.quoteAuthor}>— {block.autor}</footer>}
         </blockquote>
       );
 
     case 'content.refrain':
       return (
-        <div className="bg-gray-100 p-4 my-4 rounded">
-          <h3 className="font-bold mb-2">Refren:</h3>
-          <RichTextContent content={block.content} />
+        <div className={`${styles.articleParagraph} ${styles.refrain}`}>
+          {block.text}
         </div>
       );
 
     default:
-      console.log('Unknown component:', block.__component);
+      console.warn('Unknown block type:', block.__component);
       return null;
   }
 };

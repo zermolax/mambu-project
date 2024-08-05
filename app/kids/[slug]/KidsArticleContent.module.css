@@ -1,0 +1,136 @@
+.articleContainer {
+  background-color: var(--bp-cream);
+  color: var(--bp-chocolate);
+  font-family: 'Farro', sans-serif;
+}
+
+/* HERO */
+
+.heroImageContainer {
+  position: relative;
+  height: 70vh;
+  min-height: 400px;
+}
+
+.heroImage {
+  object-fit: cover;
+}
+
+.heroOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.3));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+}
+
+/* Article */
+
+.articleTitle {
+  font-family: var(--font-chilanka), cursive;
+  font-size: 2.5rem;
+  color: #4a9eff;
+}
+
+.articleMeta {
+  font-size: 1rem;
+  color: var(--bp-sage);
+  margin-bottom: 1rem;
+}
+
+.articleExcerpt {
+  font-size: 1.2rem;
+  color: white;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.contentWrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.mainContent {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.sidebar {
+  width: 100%;
+  max-width: 300px;
+  margin: 2rem auto 0;
+}
+
+.articleContent {
+  font-family: var(--font-balsamiq-sans), sans-serif;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.articleFigure {
+  margin: 2rem 0;
+}
+
+.articleImage {
+  max-width: 50%;
+  height: auto;
+  display: block;
+}
+
+.articleImage:hover {
+  transform: rotate(0deg) scale(1.05);
+}
+
+.articleCaption {
+  margin-top: 0.5rem;
+  font-style: italic;
+  color: #666;
+  text-align: center;
+}
+
+.articleParagraph {
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.articleQuote {
+  font-family: var(--font-patrick-hand), cursive;
+  font-size: 1.3rem;
+  color: #FFB74D;
+  border-left: 4px solid #FFB74D;
+  padding-left: 1rem;
+  margin: 1.5rem 0;
+}
+
+@media (max-width: 768px) {
+  .heroImageContainer {
+    height: 50vh;
+  }
+
+  .articleTitle {
+    font-size: 2rem;
+  }
+
+  .contentWrapper {
+    padding: 1rem;
+  }
+
+  .articleImage {
+    width: 100%;
+    margin-left: 0;
+    transform: none;
+  }
+
+  .articleImage:hover {
+    transform: none;
+  }
+}
